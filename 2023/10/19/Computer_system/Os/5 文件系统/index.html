@@ -1,0 +1,2266 @@
+<!DOCTYPE html>
+<html>
+  <!-- meta/link... -->
+  
+
+
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+  <title>操作系统（五）文件系统 | Qodicat&#39;s World</title>
+
+  <link rel="icon" type="image/x-icon, image/vnd.microsoft.icon" href="/favicon.ico">
+  <link rel="stylesheet" href="https://at.alicdn.com/t/font_1911880_c1nvbyezg17.css">
+  <link href="https://unpkg.com/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+  <link href="/js/swiper/swiper@5.4.1.min.css" rel="stylesheet">
+  
+  
+  
+  
+<link rel="stylesheet" href="/css/animate.min.css">
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+    <link href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" rel="stylesheet">
+  
+  
+    
+<link rel="stylesheet" href="/js/shareJs/share.min.css">
+
+  
+  <style>
+        @media (max-width: 992px) {
+            #waifu {
+                display: none;
+            }
+        }
+    </style>
+    <script defer src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+    
+        <script src="/js/valine/index.js"></script>
+    
+    
+    <!-- 依赖于jquery和vue -->
+    
+        <script src="https://unpkg.com/jquery@3.5.1/dist/jquery.min.js"></script>
+    
+
+    
+        <script src="https://unpkg.com/vue@2.6.11/dist/vue.min.js"></script>
+    
+
+    <!-- import link -->
+    
+        
+            
+        
+            
+        
+    
+    <!-- import script -->
+    
+        
+            
+        
+            
+        
+    
+
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+  
+  <!-- 预加载动画 -->
+  <!-- 页面预加载动画 -->
+
+  
+    <div class="preloader-1" id="loader">
+  <div  aria-label="Orange and tan hamster running in a metal wheel" role="img" class="wheel-and-hamster">
+    <div class="wheel"></div>
+    <div class="hamster">
+      <div class="hamster__body">
+        <div class="hamster__head">
+          <div class="hamster__ear"></div>
+          <div class="hamster__eye"></div>
+          <div class="hamster__nose"></div>
+        </div>
+        <div class="hamster__limb hamster__limb--fr"></div>
+        <div class="hamster__limb hamster__limb--fl"></div>
+        <div class="hamster__limb hamster__limb--br"></div>
+        <div class="hamster__limb hamster__limb--bl"></div>
+        <div class="hamster__tail"></div>
+      </div>
+    </div>
+    <div class="spoke"></div>
+  </div>
+</div>
+  
+<script>
+  var endLoading = function () {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loader').classList.add("loading");
+  }
+  window.addEventListener('DOMContentLoaded',endLoading);
+</script>
+
+  <body>
+    <!-- 判断是否为暗黑风格 -->
+    <!-- 判断是否为黑夜模式 -->
+<script>
+  let isDark = JSON.parse(localStorage.getItem('dark')) || JSON.parse('false');
+
+  if (isDark) {
+    $(document.body).addClass('darkModel');
+  }
+</script>
+
+    <!-- 需要在上面加载的js -->
+    <script>
+  function loadScript(src, cb) {
+    return new Promise(resolve => {
+      setTimeout(function () {
+        var HEAD = document.getElementsByTagName("head")[0] || document.documentElement;
+        var script = document.createElement("script");
+        script.setAttribute("type", "text/javascript");
+        if (cb) {
+          if (JSON.stringify(cb)) {
+            for (let p in cb) {
+              if (p == "onload") {
+                script[p] = () => {
+                  cb[p]()
+                  resolve()
+                }
+              } else {
+                script[p] = cb[p]
+                script.onload = resolve
+              }
+            }
+          } else {
+            script.onload = () => {
+              cb()
+              resolve()
+            };
+          }
+        } else {
+          script.onload = resolve
+        }
+        script.setAttribute("src", src);
+        HEAD.appendChild(script);
+      });
+    });
+  }
+
+  //https://github.com/filamentgroup/loadCSS
+  var loadCSS = function (src) {
+    return new Promise(resolve => {
+      setTimeout(function () {
+        var link = document.createElement('link');
+        link.rel = "stylesheet";
+        link.href = src;
+        link.onload = resolve;
+        document.getElementsByTagName("head")[0].appendChild(link);
+      });
+    });
+  };
+
+</script> 
+
+<!-- 轮播图所需要的js -->
+<script src="/js/swiper/swiper.min.js"></script>
+<script src="/js/swiper/vue-awesome-swiper.js"></script>
+<script src="/js/swiper/swiper.animate1.0.3.min.js"></script>
+
+<script type="text/javascript">
+  Vue.use(window.VueAwesomeSwiper)
+</script>
+
+
+  <script src="/js/vue-typed-js/index.js"></script>
+
+
+<!-- 首页的公告滚动插件的js需要重新加载 -->
+<script src="/js/vue-seamless-scroll/index.js"></script>
+
+<!-- 打字机效果js -->
+<script src="https://unpkg.com/typed.js@2.0.11"></script>
+
+
+    <div id="safearea">
+      <main class="main" id="pjax-container">
+        <!-- 头部导航 -->
+        
+<header class="header  " 
+  id="navHeader"
+  style="position: fixed;
+  left: 0; top: 0; z-index: 10;width: 100%;"
+>
+  <div class="header-content">
+    <div class="bars">
+      <div id="appDrawer" class="sidebar-image">
+  <div class="drawer-box-icon">
+    <i class="fas fa-bars" aria-hidden="true" @click="showDialogDrawer"></i>
+  </div>
+  
+  <transition name="fade">
+    <div class="drawer-box_mask" v-cloak style="display: none;" v-show="visible" @click.self="cancelDialogDrawer">
+    </div>
+  </transition>
+  <div class="drawer-box" :class="{'active': visible}">
+    <div class="drawer-box-head bg-color">
+      <img class="drawer-box-head_logo lazyload placeholder" src="/medias/logo.png" class="lazyload placeholder" data-srcset="/medias/logo.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="logo">
+      <h3 class="drawer-box-head_title">Qodicat&#39;s World</h3>
+      <h5 class="drawer-box-head_desc">Try something new and interesting</h5>
+    </div>
+    
+    <div class="drawer-box-content">
+      <ul class="drawer-box-content_menu">
+        
+          
+            <li class="drawer-box-content_item" style="position: relative;">
+              
+                <a href="/archives" class="drawer-menu-item-link">
+                  
+                    <i class="fas fa-archive" aria-hidden="true"></i>
+                  
+                  <span class="name">Archives</span>
+                </a>
+              
+            </li>
+          
+            <li class="drawer-box-content_item" style="position: relative;">
+              
+                <a href="/categories" class="drawer-menu-item-link">
+                  
+                    <i class="fas fa-bookmark" aria-hidden="true"></i>
+                  
+                  <span class="name">Categories</span>
+                </a>
+              
+            </li>
+          
+        
+        
+          <li class="drawer-box-content_item">
+            <a target="_blank" rel="noopener" href="https://github.com/QodiCat">
+              <i class="fas fa-github" aria-hidden="true"></i>
+              <span>Github</span>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script>
+  var body = document.body || document.documentElement || window;
+  var vm = new Vue({
+    el: '#appDrawer',
+    data: {
+      visible: false,
+      top: 0,
+      openArr: [],
+    },
+    computed: {
+    },
+    mounted() {
+    },
+    methods: {
+      isOpen(index) {
+        if (this.openArr.includes(index)) {
+          return true;
+        } else {
+          return false;
+        }
+      },
+      openOrCloseMenu(curIndex) {
+        const index = this.openArr.indexOf(curIndex);
+        if (index !== -1) {
+          this.openArr.splice(index, 1);
+        } else {
+          this.openArr.push(curIndex);
+        }
+      },
+      showDialogDrawer() {
+        this.visible = true;
+        // 防止页面滚动，只能让弹框滚动
+        this.top = $(document).scrollTop()
+        body.style.cssText = 'width: 100%; height: 100%;overflow: hidden;';
+      },
+      cancelDialogDrawer() {
+        this.visible = false;
+        body.removeAttribute('style');
+        $(document).scrollTop(this.top)
+      }
+    },
+    created() {}
+  })
+</script>
+
+    </div>
+    <div class="blog-title" id="author-avatar">
+      
+        <div class="avatar">
+          <img src="/medias/logo.png" class="lazyload placeholder" data-srcset="/medias/logo.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="logo">
+        </div>
+      
+      <a href="/" class="logo">Qodicat&#39;s World</a>
+    </div>
+    <nav class="navbar">
+      <ul class="menu">
+        
+          
+            <li class="menu-item" style="position: relative;">
+              
+                <a href="/archives" class="menu-item-link" title="Archives">
+                  
+                    <i class="fas fa-archive" aria-hidden="true"></i>
+                  
+                  <span class="name">Archives</span>
+                </a>
+              
+            </li>
+          
+            <li class="menu-item" style="position: relative;">
+              
+                <a href="/categories" class="menu-item-link" title="Categories">
+                  
+                    <i class="fas fa-bookmark" aria-hidden="true"></i>
+                  
+                  <span class="name">Categories</span>
+                </a>
+              
+            </li>
+          
+        
+      </ul>
+      
+      
+        <div id="appSearch">
+  <div class="search"  @click="showDialog()"><i class="fas fa-search" aria-hidden="true"></i></div>
+  <transition name="fade">
+    <div class="message-box_wrapper" style="display: none;" v-cloak v-show="dialogVisible" @click.self="cancelDialogVisible()">
+      <div class="message-box animated bounceInDown">
+        <h2>
+          <span>
+            <i class="fas fa-search" aria-hidden="true"></i>
+            <span class="title">Search</span>
+          </span>
+          <i class="fas fa-times close" pointer style="float:right;" aria-hidden="true" @click.self="cancelDialogVisible()"></i>
+        </h2>
+        <form class="site-search-form">
+          <input type="text"
+            placeholder="Please enter keywords"
+            id="local-search-input" 
+            @click="getSearchFile()"
+            class="st-search-input"
+            v-model="searchInput"
+          />
+        </form>
+        <div class="result-wrapper">
+          <div id="local-search-result" class="local-search-result-cls"></div>
+        </div>
+      </div>
+    </div>
+  </transition>
+</div>
+<script src="/js/local_search.js"></script>
+<script>
+  var body = document.body || document.documentElement || window;
+  var vm = new Vue({
+    el: '#appSearch',
+    data: {
+      dialogVisible: false,
+      searchInput: '',
+      top: 0,
+    },
+    computed: {
+    },
+    mounted() {
+      window.addEventListener('pjax:complete', () => {
+        this.cancelDialogVisible();
+      })
+    },
+    methods: {
+      showDialog() {
+        this.dialogVisible = true;
+        // 防止页面滚动，只能让弹框滚动
+        this.top = $(document).scrollTop()
+        body.style.cssText = 'overflow: hidden;';
+      },
+      getSearchFile() {
+        if (!this.searchInput) {
+          getSearchFile("/search.xml");
+        }
+      },
+      cancelDialogVisible() {
+        this.dialogVisible = false;
+        body.removeAttribute('style');
+        $(document).scrollTop(this.top)
+      },
+    },
+    created() {}
+  })
+</script>
+<!-- 解决刷新页面闪烁问题，可以在元素上添加display: none, 或者用vue.extend方法，详情：https://blog.csdn.net/qq_31393401/article/details/81017912 -->
+<!-- 下面是搜索基本写法 -->
+<!-- <script type="text/javascript" id="local.search.active">
+  var inputArea = document.querySelector("#local-search-input");
+  inputArea.onclick   = function(){ getSearchFile(); this.onclick = null }
+  inputArea.onkeydown = function(){ if(event.keyCode == 13) return false }
+</script> -->
+
+      
+
+    </nav>
+  </div>
+  
+    <a target="_blank" rel="noopener" href="https://github.com/QodiCat" class="github-corner color-primary" aria-label="View source on GitHub"><svg width="60" height="60" viewBox="0 0 250 250" style="fill:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+  
+  
+</header>
+        <!-- 内容区域 -->
+        
+ <!-- prismjs 代码高亮 -->
+ 
+
+
+<div class="bg-dark-floor" style="position: fixed;left: 0;top: 0;width: 100%;height: 100%;z-index: -1;"></div>
+
+
+  <!-- 文章详情页顶部图片和标题 -->
+
+
+
+
+<div class="post-detail-header" id="thumbnail_canvas" style="background-repeat: no-repeat; background-size: cover; 
+  background-position: center center;position: relative;background-image:url('https://pic3.zhimg.com/80/v2-5f7cb7e900b9dcf5354c3d4d2c5cc3c2_1440w.webp')">
+  <div class="post-detail-header-mask"></div>
+  <canvas id="header_canvas"style="position:absolute;bottom:0;pointer-events:none;"></canvas>
+  
+  <div class="post-detail-header_info-box">
+    <div class="title-box">
+      <span class="title">
+        操作系统（五）文件系统
+      </span>
+    </div>
+    
+    
+      
+        <span class="post-detail-header_date">
+          <i class="fas fa-calendar"></i> Published in：2023-10-19 |
+        </span>
+      
+
+      
+        <span class="post-detail-header_categories">
+          <i class="iconfont iconbookmark1"></i> category：
+          
+            <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" class="post-detail-header_category">
+              操作系统
+            </a>
+          
+        </span>
+      
+
+      
+    
+  </div>
+  
+  
+    <script src="/js/bubble/bubble.js"></script>
+  
+</div>
+
+
+
+
+
+<div class="post-detail-content post-row" 
+  style="padding-top: 0px;">
+  <div class="main-content">
+    <article class="post post-detail">
+      <div class="post-content">
+        <p><img src="https://qodicat-1321366457.cos.ap-beijing.myqcloud.com/OS/image-20231126205825390.png" class="lazyload placeholder" data-srcset="https://qodicat-1321366457.cos.ap-beijing.myqcloud.com/OS/image-20231126205825390.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="文件系统上总览图"></p>
+<h1 id="1-文件系统概述"><a href="#1-文件系统概述" class="headerlink" title="1 文件系统概述"></a>1 文件系统概述</h1><p><strong>为什么引入文件系统</strong></p>
+<p>​	长期保存（大量的）数据</p>
+<p>​	方便用户使用</p>
+<p>文件是有名字的记录在外存中的一组有逻辑意义的数据项序列</p>
+<p><strong>什么是文件系统</strong></p>
+<p>文件系统是OS中用来管理文件的那一部分软件</p>
+<p><strong>文件系统功能</strong></p>
+<p>统一管理文件的存储空间，实施存储空间的分配与回收<br>实现文件信息的共享，提供文件的保护和保密措施<br>实现文件的按名访问<br>     访问的透明性：用户不关心文件的物理位置和存储结构<br>向用户提供一个方便使用的接口，提供对文件系统操作的命令<br>提供与I&#x2F;O的统一接口</p>
+<p><strong>文件分类：</strong></p>
+<p>Unix系统将文件分为3类:<br>普通文件(regular)：ASCII或二进制文件<br>目录文件(directory)<br>特殊文件：设备文件，管道，套接字（socket），符号链接等</p>
+<h1 id="2-文件的结构与存取方式"><a href="#2-文件的结构与存取方式" class="headerlink" title="2 文件的结构与存取方式"></a>2 文件的结构与存取方式</h1><p>文件是存在磁盘上的</p>
+<h2 id="2-1-磁盘"><a href="#2-1-磁盘" class="headerlink" title="2.1 磁盘"></a>2.1 磁盘</h2><p>磁盘有扇片  磁道 扇区</p>
+<p>扇区——磁盘最小可寻址单元</p>
+<p>簇——存储块，固定数量的扇区</p>
+<ul>
+<li>平均存取时间</li>
+</ul>
+<p>​			T&#x3D;平均寻道时间+平均旋转等待时间+数据传输时间（有时候忽略不计）</p>
+<p>​			其中</p>
+<p>​			平均寻道时间——磁头寻找到指定磁道所需要的平均时间（大约5ms）</p>
+<p>​			平均旋转等待时间——指定扇区旋转到磁头下方所需要的平均时间（约4-6ms）</p>
+<ul>
+<li>磁盘响应时间&#x3D;平均存取时间+排队时间+控制器时间</li>
+</ul>
+<p><img src="https://qodicat-1321366457.cos.ap-beijing.myqcloud.com/OS/image-20231106203358743.png" class="lazyload placeholder" data-srcset="https://qodicat-1321366457.cos.ap-beijing.myqcloud.com/OS/image-20231106203358743.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="计算例题"></p>
+<p>注意想明白这里的0.5的来源</p>
+<h2 id="2-2-文件的物理结构"><a href="#2-2-文件的物理结构" class="headerlink" title="2.2 文件的物理结构"></a>2.2 文件的物理结构</h2><h3 id="2-2-1-连续结构"><a href="#2-2-1-连续结构" class="headerlink" title="2.2.1 连续结构"></a>2.2.1 连续结构</h3><p>文件的数据存放在若干连续的物理块中</p>
+<p><img src="https://qodicat-1321366457.cos.ap-beijing.myqcloud.com/OS/image-20231118162832432.png" class="lazyload placeholder" data-srcset="https://qodicat-1321366457.cos.ap-beijing.myqcloud.com/OS/image-20231118162832432.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="连续结构"></p>
+<p><strong>优点：</strong></p>
+<p>简单，只要记住首块的地址和文件长度即可<br> 支持顺序存取和随机存取<br> 顺序存取速度快<br> 所需的磁盘寻道时间最少</p>
+<p><strong>缺点：</strong></p>
+<p>不利于文件的动态增长<br>    若预留空间：浪费，而且预先不知道文件的最大长度<br>    否则需要重新分配和移动<br>不利于文件内容的插入和删除<br>存在外部碎片问题</p>
+<h3 id="2-2-2-链式结构"><a href="#2-2-2-链式结构" class="headerlink" title="2.2.2 链式结构"></a>2.2.2 链式结构</h3><p> 一个文件的数据存放在若干不连续的物理块中，各块之间通过指针连接，<br> 每个物理块指向下一个物理块</p>
+<p><img src="https://qodicat-1321366457.cos.ap-beijing.myqcloud.com/OS/image-20231118162903188.png" class="lazyload placeholder" data-srcset="https://qodicat-1321366457.cos.ap-beijing.myqcloud.com/OS/image-20231118162903188.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="链式结构"></p>
+<p><strong>优点</strong></p>
+<p>提高了磁盘空间利用率<br> 不存在外部碎片问题<br> 有利于文件的插入和删除<br> 有利于文件的动态扩充</p>
+<p><strong>缺点：</strong><br>随机存取相当缓慢<br>需要更多的寻道时间<br>链接指针占用一定的空间</p>
+<p>改进变形</p>
+<p>FAT表</p>
+<p>文件分配表FAT的一种实现：<br>磁盘的每个分区包含一个FAT，分区中的每个盘块在其中占有1项（以块号为索引），指出文件中下一块的块号。<br>在目录项中包含文件首块的块号。</p>
+<p><img src="https://qodicat-1321366457.cos.ap-beijing.myqcloud.com/OS/image-20231106204009176.png" class="lazyload placeholder" data-srcset="https://qodicat-1321366457.cos.ap-beijing.myqcloud.com/OS/image-20231106204009176.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="FAT表图示"></p>
+<h3 id="2-2-3-索引结构"><a href="#2-2-3-索引结构" class="headerlink" title="2.2.3 索引结构"></a>2.2.3 索引结构</h3><p>一个文件的数据存放在若干不连续的物理块中，系统为每个文件建立一个专用数据结构–索引表。<br>索引表存放逻辑块号与物理块号的对应关系<br>一个索引表就是磁盘块地址（块号）数组，其中第i个条目存放的是逻辑块号i对应的物理块号<br>文件目录的目录项中指出索引表的物理地址</p>
+<p><img src="https://qodicat-1321366457.cos.ap-beijing.myqcloud.com/OS/image-20231118162943439.png" class="lazyload placeholder" data-srcset="https://qodicat-1321366457.cos.ap-beijing.myqcloud.com/OS/image-20231118162943439.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="索引结构"></p>
+<p><strong>优点</strong>：保持了链接结构的优点，又避免了其缺点<br> 既能顺序存取，又能随机存取<br> 能满足文件动态增长、插入、删除的要求<br> 能充分利用外存空间<br><strong>缺点</strong>：<br>索引表本身带来了系统开销</p>
+<p>UNIX文件系统采用的是多级混合索引结构。<br>每个文件的索引表为13个索引项<br>最前面10项直接登记存放文件数据的物理块号（直接寻址）<br>如果文件大于10块，则利用第11项指向一个物理块，该块中最多可放256个文件物理块的块号（一次间接寻址）。对于更大的文件还可利用第12和第13项作为二次和三次间接寻址<br>UNIX中采用了三级索引结构后，文件最大可达16M个物理块</p>
+<p>索引表的组织方式</p>
+<p>如果文件很大，索引表较大，超过了一个物理块，就必须考虑索引表的组织方式，即怎么去存储索引表</p>
+<p>索引表的组织方式:<br>（1）连续方式<br>    索引表占用多个连续的盘块<br>（2）链接方式<br>    索引表按照链式结构组织，占用多个不连续的盘块<br>（3）多级索引（多重索引）<br>  例如，二级索引：将一个大文件的所有索引表（二级索引）的地址放在另一个索引表（一级索引）中<br>  此外，还有三级索引等。</p>
+<p>题目</p>
+<p>设每个盘块4kB，每个盘块号4B，则采用3次间址可表示的文件最大长度为 [4T] B。</p>
+<h2 id="2-3-文件的存取方式"><a href="#2-3-文件的存取方式" class="headerlink" title="2.3 文件的存取方式"></a>2.3 文件的存取方式</h2><p>主要有顺序存取和随机存取两种。<br>1 顺序存取<br>  对文件中的数据按逻辑顺序进行读&#x2F;写的存取方式<br> 2 随机存取<br>  对文件中的数据按任意顺序进行读&#x2F;写的存取方式<br> 3 按键（key）存取：如DBMS</p>
+<p>还与介质有关</p>
+<h1 id="3-文件目录"><a href="#3-文件目录" class="headerlink" title="3 文件目录"></a>3 文件目录</h1><h2 id="3-1-基本概念"><a href="#3-1-基本概念" class="headerlink" title="3.1 基本概念"></a>3.1 基本概念</h2><p>几个基本的概念</p>
+<p><strong>1 文件控制块</strong></p>
+<p>文件控制块是操作系统为管理文件而设置的数据结构，存放了为管理文件所需的所有相关信息（文件属性）</p>
+<p>基本信息：文件的名字、地址（起始物理块号）、长度、结构（逻辑结构、物理结构）、类型<br>存取控制信息：文件属主（owner）、存取权限或口令<br>使用信息：共享计数，文件的建立、修改日期等</p>
+<p><strong>2 文件目录</strong></p>
+<p> 把所有的FCB组织在一起，就构成了文件目录<br>  即文件控制块的有序集合</p>
+<p><strong>3  目录项</strong><br>  构成文件目录的项目（目录项就是FCB）</p>
+<p><strong>4 目录文件</strong></p>
+<p>为了实现对文件目录的管理，通常将文件目录以文件的形式保存在外存，<br> 这个文件就叫目录文件<br> 目录主要是为了系统快速实现“按名访问”而引入的，<br> 查目录是文件系统最频繁的操作，因此目录的合理组织很重要</p>
+<h2 id="3-2-目录结构"><a href="#3-2-目录结构" class="headerlink" title="3.2 目录结构"></a>3.2 目录结构</h2><h3 id="单级目录结构"><a href="#单级目录结构" class="headerlink" title="单级目录结构"></a>单级目录结构</h3><p>为所有文件建立一个目录文件（组成一线性表）<br>优点：简单，易实现</p>
+<p>缺点：<br> 限制了用户对文件的命名（容易出现“命名冲突”）<br> 顺序检索文件时，平均检索时间长<br> 不利于对文件的共享</p>
+<h3 id="多级目录结构"><a href="#多级目录结构" class="headerlink" title="多级目录结构"></a>多级目录结构</h3><p>对二级目录简单扩充可得三级或三级以上的多级目录结构，<br>即允许每一级目录中的FCB要么指向文件，要么指向下一级子目录。<br>这是当今主流OS普遍采用的目录结构<br>优点：<br>    层次结构清晰，便于管理和保护；有利于文件分类；<br>    能较好地避免重名问题；提高了文件检索速度；有利于访问权限的控制</p>
+<h2 id="3-3-文件目录检索"><a href="#3-3-文件目录检索" class="headerlink" title="3.3 文件目录检索"></a>3.3 文件目录检索</h2><p>访问文件时，必须首先确定<strong>读写文件的地址</strong>，需要下列2步：<br>（1）目录检索：根据文件名，查目录，确定文件的起始地址。<br>（2）文件寻址：确定所要访问文件内容的起始位置（地址）。</p>
+<h3 id="3-3-1-目录检索"><a href="#3-3-1-目录检索" class="headerlink" title="3.3.1 目录检索"></a>3.3.1 目录检索</h3><p>文件的“按名存取”是通过查目录实现的，系统按照文件的路径名检索<br>基本的目录检索技术主要有：<br>线性检索法<br>Hash方法<br>为了加快目录检索，许多系统引入当前目录（工作目录）、相对路径名等。</p>
+<h3 id="文件寻址"><a href="#文件寻址" class="headerlink" title="文件寻址"></a>文件寻址</h3><p>根据目录项（FCB）中记录的文件物理地址等信息，<br>求出文件的任意记录或字节在存取介质上的地址<br>文件寻址与文件的物理结构和逻辑结构以及设备的物理特性有关<br>文件的内容是以块为单位存储的。<br>但存取文件时，对于记录式文件，是以逻辑记录为单位提出存取要求的，因此，<br>存储介质上的物理块长度与逻辑记录的长度是否匹配直接影响到对文件的寻址</p>
+<h2 id="3-4-文件目录的实现"><a href="#3-4-文件目录的实现" class="headerlink" title="3.4 文件目录的实现"></a>3.4 文件目录的实现</h2><p>当查找文件时候，需要依次将存放目录的物理块装入内存，逐一比较文件名，直到找到为止</p>
+<p>例如：文件说明占128B，每块512B，则每块可存放4个目录项</p>
+<p>设目录文件占用的盘块数是N个，则要找到一个目录项，<br>平均需要读入多少个盘块？(N+1)&#x2F;2块</p>
+<p>把文件说明信息（FCB）都放在目录项中的缺点：<br>  查找文件缓慢，因为目录项较大<br>  文件目录平常放在外存中，当文件很多时，可能占用大量的外存物理块</p>
+<p>但实际上我们文件检索只需要文件名，不需要那么多其他的信息</p>
+<p>所以我们将文件说明分成两部分   把FCB分成两部分</p>
+<p>1 符号目录项——包括文件名，文件号</p>
+<p>2 基本目录项——除文件名以外的所有信息</p>
+<p>目录项分解法的典型实现</p>
+<p>1 符号文件目录+基本文件目录</p>
+<p>2 目录项 +I 节点</p>
+<p>Unix&#x2F;Linux采用此方法，它把符号目录项称为目录项，而把基本目录项称为I节点（Index node，索引节点），这样，目录项中的文件号就是I节点号。</p>
+<p>举例一个查找过程</p>
+<p>一个文件存在根目录下的wang目录下，若获得这个文件的I结点号，需要读几个磁盘物理块</p>
+<p>注意 I节点只存储当前目录或者文件的信息！！！</p>
+<p>I节点存的物理块号（如果是目录的话，就是目录项的地址，如果是文件的话，则是文件的首地址）！！！</p>
+<p>首先根据根目录的I节点号以及内存中的I节点与物理块号的对应关系，可以知道根目录I节点的地址，去读这个地址的内容（第一次读物理块读取），即是获得了根目录的目录项的地址，去读根目录的目录项（第二次物理块读取）可以知道wang对应的I节点物理地址，读wang的I节点地址内容（第三次读取）可以知道wang的目录项地址，读wang目录项地址就可以获得文件a.c的I节点号（第四次读取）</p>
+<p>如果是索引的话 获得的地址不是物理块地址，而是索引表地址，所以需要每一个获取地址都增加一次，总共六次</p>
+<p><img src="https://qodicat-1321366457.cos.ap-beijing.myqcloud.com/OS/image-20231126210111722.png" class="lazyload placeholder" data-srcset="https://qodicat-1321366457.cos.ap-beijing.myqcloud.com/OS/image-20231126210111722.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20231126210111722"></p>
+<h1 id="4-空闲存储空间的管理"><a href="#4-空闲存储空间的管理" class="headerlink" title="4 空闲存储空间的管理"></a>4 空闲存储空间的管理</h1><h2 id="4-1-空闲区表"><a href="#4-1-空闲区表" class="headerlink" title="4.1 空闲区表"></a>4.1 空闲区表</h2><p>将所有空闲区记录在一个表中。<br>    适合连续文件的外存分配与回收。如今很少用</p>
+<h2 id="4-2-空闲块链"><a href="#4-2-空闲块链" class="headerlink" title="4.2 空闲块链"></a>4.2 空闲块链</h2><p>把所有空闲块链成一个链，适合离散分配</p>
+<p>扩展：<br>①不断地适度增加块大小<br>    从最早的512B 1KB  2KB  4KB  8KB  16KB  32KB  64KB。<br>②成组链接法<br>  链上每个节点记录1组空闲块。适合大型文件系统，分配、释放快，<br>  链占用空间少（除首组外均隐藏在空闲块中）。UNIX用之</p>
+<p>成组连接法</p>
+<h2 id="4-3-位图"><a href="#4-3-位图" class="headerlink" title="4.3 位图"></a>4.3 位图</h2><p>用一串二进制位反映磁盘空间的分配情况，每个物理块对应1位，已分配的物理块为1，否则为0<br>申请物理块时，可以在位图中查找为0的位，返回对应的物理块号<br>归还时，将对应位设置为0<br>描述能力强，适合各种物理结构</p>
+<h1 id="5-文件的使用"><a href="#5-文件的使用" class="headerlink" title="5 文件的使用"></a>5 文件的使用</h1><p>为方便用户使用文件，文件系统提供对文件的各种操作，<br>使用的形式包括系统调用或命令<br> ① 提供设置和修改用户对文件访问权限的操作<br> ② 提供建立、修改、删除目录的操作<br> ③ 提供文件共享、设置访问路径的操作<br> ④ 提供创建、打开、读、写、关闭、删除文件等操作<br>其中，最基本的操作是：打开、关闭、读、写文件等</p>
+<p>为什么要 打开&#x2F;关闭文件呢</p>
+<p>open：把文件说明信息（FCB）装入内存，便于以后的快速访问。<br>（1）根据指定的文件路径名，查目录，找到相应文件的目录项，检查权限；<br>（2）将文件说明信息装入内存；<br>（3）分配一个文件id（整数）。后面通过该id实施对该文件的操作。</p>
+<p>close：<br> （1）释放文件说明信息所占的内存空间；<br> （2）把文件缓冲区中已修改的内容写回文件。<br> 很多系统限制进程打开文件的个数，用户尽可能要关闭不再使用的文件。</p>
+<p>打开文件会在内存建立文件的描述信息，记录文件的当前指针，有助于提高文件的访问速度与灵活性。</p>
+<p>关闭会释放文件缓冲区，将已修改的内容写盘，释放文件描述信息所占的内存空间。若不关闭文件，则内存空间被浪费，甚至可能会使修改的内容丢失。</p>
+<h1 id="6-文件共享"><a href="#6-文件共享" class="headerlink" title="6 文件共享"></a>6 文件共享</h1><p>文件共享：一个文件被多个用户或进程使用<br>共享的目的：<br>节省时间和存储空间，减少用户工作量<br>进程间通过文件交换信息</p>
+<h2 id="6-1-普通的文件共享方法"><a href="#6-1-普通的文件共享方法" class="headerlink" title="6.1 普通的文件共享方法"></a>6.1 普通的文件共享方法</h2><h3 id="6-1-1-按路径名访问共享文件"><a href="#6-1-1-按路径名访问共享文件" class="headerlink" title="6.1.1 按路径名访问共享文件"></a>6.1.1 按路径名访问共享文件</h3><p>  实现简单，不需要建立另外的目录项<br>  但路径名可能长，检索较慢</p>
+<h3 id="6-1-2-链接法"><a href="#6-1-2-链接法" class="headerlink" title="6.1.2 链接法"></a>6.1.2 链接法</h3><p>在相应目录项之间建立链接。即一个目录项中含有指向另一个目录项的指针。<br> 实现方法：<br>  在目录项中设置一个“链接属性”，<br>  表示目录项中的“物理地址”是指向另一目录项的指针。<br>  同时，在共享文件的目录项中包含“用户计数”。</p>
+<h3 id="6-1-3-基本文件目录BFD"><a href="#6-1-3-基本文件目录BFD" class="headerlink" title="6.1.3 基本文件目录BFD"></a>6.1.3 基本文件目录BFD</h3><p>整个文件系统有1个基本文件目录BFD：<br>    每个文件（及目录）有1个目录项，包含系统赋予的唯一标识符ID（整数）<br>    以及其他的文件说明信息<br>每个目录有1个符号文件目录SFD：除了ID &#x3D; 0，1，2外,<br>     每个目录项仅包含文件名和ID<br>系统把ID &#x3D; 0，1，2的目录项分别作为BFD、FFD、MFD的标识符<br>共享方法：<br>     若一个用户想共享另一用户的文件，只需在自己的目录文件中增加一个目录项，填上自己起的文件名和该共享文件的唯一ID即可。如ID &#x3D; 6的文件。  </p>
+<h2 id="6-2-基于I节点的文件共享方法（Unix采用）"><a href="#6-2-基于I节点的文件共享方法（Unix采用）" class="headerlink" title="6.2 基于I节点的文件共享方法（Unix采用）"></a>6.2 基于I节点的文件共享方法（Unix采用）</h2><h3 id="6-2-1-硬链接"><a href="#6-2-1-硬链接" class="headerlink" title="6.2.1 硬链接"></a>6.2.1 硬链接</h3><h3 id="6-2-3-符号链接"><a href="#6-2-3-符号链接" class="headerlink" title="6.2.3 符号链接"></a>6.2.3 符号链接</h3><p>在Windows中叫做 快捷方式</p>
+<h1 id="7-文件保护"><a href="#7-文件保护" class="headerlink" title="7 文件保护"></a>7 文件保护</h1><p>主要涉及文件存取控制</p>
+<ol>
+<li><p>存取控制矩阵<br> 给出每个用户对每个文件的访问权限。<br> 一维是所有用户，另一维是所有文件，<br> 对应的矩阵元素是用户对文件的访问权限。<br> 例如，访问操作分为：<br> 读操作（r）<br> 写操作（w）<br> 执行操作（x）<br> 不能执行任何操作（-）<br> 当用户和文件较多时，很庞大。</p>
+</li>
+<li><p>存取控制表（Access Control List，ACL）<br> 每个文件一张ACL，将用户分类，规定每类用户的访问权限。<br> 例如，Unix&#x2F;Linux将用户分类为：<br> 文件主（owner）<br> 文件主的同组用户（group）<br> 其他用户（other）</p>
+</li>
+<li><p>存取权限表（Capability List，CL）<br> 每个用户一张CL，规定对每个文件的访问权限。</p>
+</li>
+<li><p>口令<br> 用户创建文件时，设置一个口令，放在文件目录中。</p>
+</li>
+<li><p>密码<br> 写入时加密，读出时解密。</p>
+</li>
+</ol>
+<p>假定两个用户共享一个文件系统，用户A有文件a，b，e，f ，用户B有文件c，d，e，f。用户A的b和用户B的d是同一个文件。用户A的e和用户B的e不是同一个文件，用户A的f和用户B的f是同一个文件。拟定一个文件组织方案，使得A，B两个用户能够共享该文件系统而不会造成混乱</p>
+<p>答</p>
+<p>为了确保用户A和用户B能够共享文件系统而不会造成混乱，可以采用以下文件组织方案：</p>
+<ol>
+<li><strong>首先创建两个用户目录</strong>：为每个用户创建一个独立的目录，目录A和目录B。这样，用户A和用户B的文件可以分别存储在各自的目录中，避免混淆，对于用户A的e和用户B的e不是同一个文件，则可以将它们分别存放在各自的目录中，因为它们不需要共享</li>
+<li><strong>共享文件存放目录</strong>：对于文件f，创建一个共享文件存放目录，这确保了用户A和用户B可以共同访问和修改这些共享文件。</li>
+<li><strong>建立符号链接</strong>：对于用户A的b和用户B的d是同一个文件，则可以在用户A的目录中创建一个符号链接，指向用户B的文件d。这样，用户A可以访问和操作这个文件，同时避免重复存储。</li>
+</ol>
+<p>通过以上的文件组织方案，用户A和用户B可以共享文件系统，各自管理自己的文件，并且能够访问和修改共享文件，同时避免重名文件和混淆。这样可以确保文件系统的整体有序性和可维护性。</p>
+<p>已知某文件系统采用多级目录结构，逻辑块和物理块大小均为1KB，目录当做文件，采用目录项+I结点的方式。假定要读取文件&#x2F;a&#x2F;b&#x2F;c.dat的第10600-10900个字节，针对连续结构，基本链式结构，FAT和单级索引结构这四种情况，回答下列问题</p>
+<p>1 给出读盘过程</p>
+<p>2 给出读盘次数（如果有必要，可以对本题未给出的条件做出合理假设）</p>
+<ol>
+<li>读盘过程：</li>
+</ol>
+<ul>
+<li><p>连续结构：根据文件&#x2F;a&#x2F;b&#x2F;c.dat在目录中的信息，找到其起始逻辑块号。然后根据逻辑块号和文件系统的块映射关系，直接读取对应的物理块</p>
+</li>
+<li><p>基本链式结构：根据文件&#x2F;a&#x2F;b&#x2F;c.dat在目录中的信息，找到对应的I节点编号。从I节点中读取文件的索引结构，逐级跳转到链式结构中的下一个块，直到找到包含所需字节范围的块。然后从该块中读取所需字节。</p>
+</li>
+<li><p>FAT（文件分配表）结构：根据文件&#x2F;a&#x2F;b&#x2F;c.dat在目录中的信息，找到对应的I节点编号。从I节点中读取文件的索引结构，根据FAT表的信息，依次读取块链中的物理块，直到找到包含所需字节范围的块。然后从该块中读取所需字节。</p>
+</li>
+<li><p>单级索引结构：根据文件&#x2F;a&#x2F;b&#x2F;c.dat在目录中的信息，找到对应的I节点编号。从I节点中读取文件的索引结构，根据单级索引指向的块，再根据块内的索引信息找到包含所需字节范围的块。然后从该块中读取所需字节。</p>
+</li>
+</ul>
+<ol start="2">
+<li>读盘次数：</li>
+</ol>
+<ul>
+<li><p>连续结构：只需进行一次读取，因为连续结构中的数据是连续存储的。</p>
+</li>
+<li><p>基本链式结构：根据所需字节范围的位置，可能需要多次读取。每次读取都需要跳转到下一个块。</p>
+</li>
+<li><p>FAT结构：根据所需字节范围的位置，可能需要多次读取。每次读取都需要根据FAT表的信息找到下一个块。</p>
+</li>
+<li><p>单级索引结构：根据所需字节范围的位置，可能需要多次读取。每次读取都需要根据索引结构中的信息找到下一个块。</p>
+</li>
+</ul>
+<p>需要注意的是，以上的读盘次数可能还会受到文件系统的缓存策略等因素的影响，这里只是基于给出的情况做出的合理估计。</p>
+<p>为某一个应用场景设计一个文件系统，所设计的文件系统不能建立在已有的文件系统的基础上。具体要求如下：</p>
+<p>1 举一个应用场景的例子，说明该场景下对文件系统的具体需求</p>
+<p>2 针对具体需求给出一种文件系统的设计方案</p>
+<p>3 对你的设计方案进行评价</p>
+<ol>
+<li><p>应用场景示例：智慧农业控制嵌入式系统。在智慧农业系统中，用户可以通过手机或者智能音箱等设备来控制农场中的各种设备，如灯光、温度、安防等。在这个场景中，文件系统被用于存储和管理各类设备的配置文件、日志文件等数据。</p>
+</li>
+<li><p>文件系统设计方案：</p>
+</li>
+</ol>
+<p>考虑到智慧农业控制嵌入式系统的特点和需求，可以设计一种轻量级的文件系统，具备以下特点：</p>
+<ul>
+<li><strong>简单快速</strong>: 提供简洁的操作界面和易于理解的文件组织方式，方便用户进行文件的存储、查找和管理。优化文件系统的读写性能，以满足实时控制的需求。采用文件缓存、文件索引等技术来提升文件读写效率。</li>
+<li><strong>可靠性</strong>: 采用数据冗余和文件系统日志等机制来保证数据的完整性和可靠性，防止数据丢失或损坏。</li>
+<li><strong>安全性</strong>: 对于敏感信息，采用加密算法进行数据保护，防止数据泄露和非法访问。</li>
+<li><strong>灵活扩展</strong>: 设计分级的结构设计，以便未来能够支持新的设备类型、新的功能和协议。</li>
+</ul>
+<ol start="3">
+<li>设计方案评价：</li>
+</ol>
+<p>该设计方案针对智慧农业控制嵌入式系统的需求进行了考虑，并且具备一定的可行性和可实现性。然而，对于一个完整的文件系统来说，还需要更多的细节和技术实现方面的考虑，如并发访问的处理、容错和恢复机制等。此外，还需要考虑与其他系统组件的协同工作，以确保整个智慧农业控制嵌入式系统的稳定运行和良好的用户体验</p>
+
+      </div>
+      <div class="post-tags-categories">
+        
+      </div>
+      
+        <div class="copyright">
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+    <strong>author:  </strong>Qodicat</a>
+    </li>
+    <li class="post-copyright-link">
+    <strong>link:  </strong>
+    <a href="/2023/10/19/Computer_system/Os/5 文件系统/" target="_blank" title="操作系统（五）文件系统">http://qodicat/2023/10/19/Computer_system/Os/5 文件系统/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>Copyright notice:   </strong>
+      All articles on this website, unless otherwise stated, adopt <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+      reprint policy. If reproduced, please indicate source!
+    </li>
+  </ul>
+<div>
+      
+    </article>
+    <!-- 上一篇文章和下一篇文章 -->
+    
+      <!-- 文章详情页的上一页和下一页 -->
+<div class="post-nav">
+
+
+
+  
+  <div class="post-nav-prev post-nav-item">
+    <div class="post-nav-img" style="background-size: cover; 
+      background-position: center center;">
+      <img class="lazyload lazyload placeholder" src="https://pica.zhimg.com/80/v2-61f99f8dcf899f54cad2a1aa28b21e44_1440w.webp" class="lazyload placeholder" data-srcset="https://pica.zhimg.com/80/v2-61f99f8dcf899f54cad2a1aa28b21e44_1440w.webp" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+    </div>
+    <a href="/2023/10/20/Computer_system/Os/6%20%E8%AE%BE%E5%A4%87%E7%AE%A1%E7%90%86/" class="post-nav-link">
+      <div class="title">
+        <i class="fas fa-angle-left"></i> Prev:
+        <div class="title-text">操作系统（六）设备管理</div>
+      </div>
+      
+      <!-- <div class="content">
+        
+1 设备管理概述1.1 系统总线结构系统总线上传输的信息有——数据 地址 其他控制状态定时信号
+系统总线其实有几类
+如
+      </div> -->
+    </a>
+  </div>
+
+
+
+  
+  <div class="post-nav-next post-nav-item">
+    <div class="post-nav-img" style="background-size: cover; 
+      background-position: center center;">
+      <img class="lazyload lazyload placeholder" src="https://pic3.zhimg.com/80/v2-5f7cb7e900b9dcf5354c3d4d2c5cc3c2_1440w.webp" class="lazyload placeholder" data-srcset="https://pic3.zhimg.com/80/v2-5f7cb7e900b9dcf5354c3d4d2c5cc3c2_1440w.webp" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" src="" alt="">
+    </div>
+    <a href="/2023/10/18/Computer_system/Os/4%20%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" class="post-nav-link">
+      <div class="title">
+        Next: <i class="fas fa-angle-right"></i>
+        <div class="title-text">操作系统（四）内存管理</div>
+      </div>
+      <!-- <div class="content">
+        
+1 内存管理概述内存是存储系统的一部分
+存储系统核心目的是存储要运行的程序数据之类的
+存储系统的设计目标可以归纳为3个
+      </div> -->
+    </a>
+  </div>
+
+</div>
+
+    
+    
+
+    <!-- 打赏 -->
+    
+      <div id="appDonate" class="post-donate">
+  <div id="donate_board" class="donate_bar center" ref="donate">
+    <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏" @click="showDialogDrawer()"></a>
+  </div>
+  <transition name="fade">
+    <div 
+      class="donate-box-mask"
+      v-cloak 
+      v-show="visible"
+      @click="cancelDialogDrawer()"
+    >
+    </div>
+  </transition>
+  <transition name="bounce">
+    <div class="donate-box" v-cloak v-show="visible">
+      <div class="donate-box_close">
+        <i class="fas fa-times" aria-hidden="true" @click="cancelDialogDrawer" pointer></i>
+      </div>
+      <div class="donate-box_title">
+        <h4>
+          谢谢你给我买一个棒棒糖
+        </h4>
+      </div>
+      <div class="donate-box_tab">
+        <div class="Alipay" pointer :class="{'active': tabActive === 'Alipay'}" @click="changeTabActive('Alipay')">
+          支付宝
+        </div>
+        <div class="WeChatpay" pointer :class="{'active': tabActive === 'WeChatpay'}" @click="changeTabActive('WeChatpay')">
+          微信
+        </div>
+      </div>
+      <div class="donate-box_img">
+        <div class="AlipayImg" v-show="tabActive === 'Alipay'">
+          <img src="https://pica.zhimg.com/80/v2-61f99f8dcf899f54cad2a1aa28b21e44_1440w.webp" class="lazyload placeholder" data-srcset="https://pica.zhimg.com/80/v2-61f99f8dcf899f54cad2a1aa28b21e44_1440w.webp" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="支付宝打赏" />
+        </div> 
+        <div class="WeChatpayImg" v-show="tabActive === 'WeChatpay'">
+          <img src="https://pic2.zhimg.com/80/v2-29e78b52051ce542adf6d786d61fbd19_1440w.webp" class="lazyload placeholder" data-srcset="https://pic2.zhimg.com/80/v2-29e78b52051ce542adf6d786d61fbd19_1440w.webp" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="微信打赏" />
+        </div>
+      </div>
+    </div>
+  </transition>
+</div>
+
+<script>
+  var body = document.body || document.documentElement || window;
+  var vm = new Vue({
+    el: '#appDonate',
+    data: {
+      visible: false,
+      tabActive: 'Alipay',
+      top: 0,
+    },
+    computed: {
+    },
+    mounted() {
+    },
+    methods: {
+      showDialogDrawer() {
+        this.visible = true;
+        // 防止页面滚动，只能让弹框滚动
+        // function getScroll() {
+        //   return {
+        //     left: window.pageXOffset || document.documentElement.scrollLeft || document.body.scrollLeft || 0,
+        //     top: window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0
+        //   };
+        // }
+        this.top = $(document).scrollTop() // or getScroll().top
+        // console.log('aa', $('.main-content'));
+        body.style.cssText = 'overflow: hidden;';
+      },
+      cancelDialogDrawer() {
+        this.visible = false;
+        body.removeAttribute('style');
+        $(document).scrollTop(this.top)
+      },
+      changeTabActive(name) {
+        this.tabActive = name;
+      }
+    },
+    created() {}
+  })
+</script>
+    
+
+    <!-- 分享 -->
+    
+      <!-- https://github.com/overtrue/share.js -->
+<!-- 文章详情页的分享 -->
+<div class="social-share" data-sites="wechat,qq" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+
+<script src="/js/shareJs/social-share.min.js"></script>
+</script>
+
+<style>
+  .social-share {
+    margin: 20px 0;
+  }
+</style>
+
+
+    
+    
+    <!-- 评论 -->
+    <!-- 评论 -->
+
+  <div id="myComment">
+    
+      
+<section id="comments" style="padding: 1em;"
+	class="animated bounceInUp">
+	<div id="vcomment" class="comment"></div>
+</section>
+<style>
+	#comments {
+		background: rgba(255,255,255,0.9);
+	}
+	#veditor {
+		background-image: url('https://img.zcool.cn/community/01a253594c71cfa8012193a329a77f.gif');
+		background-size: contain;
+		background-repeat: no-repeat;
+		background-position: right;
+		background-color: rgba(255, 255, 255, 0);
+		resize: vertical;
+	}
+	#veditor:focus{
+		background-position-y: 200px;
+		transition: all 0.2s ease-in-out 0s;
+	}
+	#vcomment .vcards .vcard .vh .vhead .vtag.vvisitor {
+		background-color: #42b983;
+	}
+	.v[data-class=v] .vbtn:active, .v[data-class=v] .vbtn:hover {
+		color: #42b983;
+		border-color: #42b983;
+	}
+	#vcomment .vcards .vcard .vhead .vsys i {
+		display: none;
+	}
+	/* 底部valine链接 */
+	#vcomment .vpower {
+		display: none;
+	}
+	
+	/* 底下注释是修改 名称和邮箱和网址输入框的样式 */
+	/* #vcomment .vheader {
+		display: flex;
+		justify-content: space-around;
+	}
+	
+	#vcomment .vheader .vnick {
+		width: 31%;
+		border: 2px solid #dedede;
+		padding-left: 10px;
+		padding-right: 10px;
+		border-radius: 5px
+	}
+
+	#vcomment .vheader .vmail {
+		width: 31%;
+		border: 2px solid #dedede;
+		padding-left: 10px;
+		padding-right: 10px;
+		border-radius: 5px
+	}
+
+	#vcomment .vheader .vlink {
+		width: 31%;
+		border: 2px solid #dedede;
+		padding-left: 10px;
+		padding-right: 10px;
+		border-radius: 5px
+	} */
+
+	img.vimg {
+		transition: all 1s;
+		/* 头像旋转时间为 1s */
+	}
+
+	img.vimg:hover {
+		transform: rotate(360deg);
+		-webkit-transform: rotate(360deg);
+		-moz-transform: rotate(360deg);
+		-o-transform: rotate(360deg);
+		-ms-transform: rotate(360deg);
+	}
+
+	#vcomment .vcards .vcard {
+		padding: 15px 20px 0 20px;
+		border-radius: 10px;
+		margin-bottom: 15px;
+		box-shadow: 0 0 4px 1px rgba(0, 0, 0, .12);
+		transition: all .3s
+	}
+
+	#vcomment .vcards .vcard:hover {
+		box-shadow: 0 0 8px 3px rgba(0, 0, 0, .12)
+	}
+
+	#vcomment .vcards .vcard .vh .vcard {
+		border: none;
+		box-shadow: none;
+	}
+</style>
+    
+  </div>
+
+<!-- comment script in themes\hexo-theme-bamboo\layout\_partial\scripts\index.ejs -->
+
+
+  </div>
+
+  <!-- 目录 -->
+  <aside id='l_side'>
+  
+    
+      <section class="widget side_blogger">
+  <div class='content'>
+    
+      
+        <a class='avatar flat-box rectangle' href='/about/'>
+          <img src='https://qodicat-1321366457.cos.ap-beijing.myqcloud.com/Blog/alankennedy._one_boy_and_a_cute_cat_lying_on_the_lawnTop-down_p_b5315c73-cd34-4fe8-ae7b-2b32031b1038.png'/>
+        </a>
+      
+    
+    
+      <div class='text'>
+        
+          <h2>Qodicat</h2>
+        
+        
+          <p>AI野生探险家一枚</p>
+
+        
+        
+          <p><span id="jinrishici-sentence">Qodicat's World</span></p>
+          <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+        
+      </div>
+    
+    
+      <div class="social-wrapper">
+        
+          
+            <a href="mailto:1357016290@qq.com"
+              class="social fas fa-envelope flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+              
+            </a>
+          
+        
+          
+            <a href="https://github.com/QodiCat"
+              class="social fab fa-github flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+              
+            </a>
+          
+        
+          
+            <a href="tencent://AddContact/?fromId=50&amp;fromSubId=1&amp;subcmd=all&amp;uin=1357016290"
+              class="social fab fa-qq flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+              
+            </a>
+          
+        
+      </div>
+    
+  </div>
+</section>
+
+    
+  
+  
+  
+
+  <div class="layout_sticky">    
+    
+      
+<section class="widget side_toc">
+  
+  <header>
+    
+      <i style="color: " class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name' style="color: ">本文目录</span>
+    
+  </header>
+
+
+  <div class='content'>
+    <div class="toc-main">
+      <div class="toc-content">
+        <!-- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0"><span class="toc-text">1 文件系统概述</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-%E6%96%87%E4%BB%B6%E7%9A%84%E7%BB%93%E6%9E%84%E4%B8%8E%E5%AD%98%E5%8F%96%E6%96%B9%E5%BC%8F"><span class="toc-text">2 文件的结构与存取方式</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-%E7%A3%81%E7%9B%98"><span class="toc-text">2.1 磁盘</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-%E6%96%87%E4%BB%B6%E7%9A%84%E7%89%A9%E7%90%86%E7%BB%93%E6%9E%84"><span class="toc-text">2.2 文件的物理结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-1-%E8%BF%9E%E7%BB%AD%E7%BB%93%E6%9E%84"><span class="toc-text">2.2.1 连续结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-2-%E9%93%BE%E5%BC%8F%E7%BB%93%E6%9E%84"><span class="toc-text">2.2.2 链式结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-3-%E7%B4%A2%E5%BC%95%E7%BB%93%E6%9E%84"><span class="toc-text">2.2.3 索引结构</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3-%E6%96%87%E4%BB%B6%E7%9A%84%E5%AD%98%E5%8F%96%E6%96%B9%E5%BC%8F"><span class="toc-text">2.3 文件的存取方式</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95"><span class="toc-text">3 文件目录</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-text">3.1 基本概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="toc-text">3.2 目录结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%95%E7%BA%A7%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="toc-text">单级目录结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E7%BA%A7%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="toc-text">多级目录结构</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-3-%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95%E6%A3%80%E7%B4%A2"><span class="toc-text">3.3 文件目录检索</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-1-%E7%9B%AE%E5%BD%95%E6%A3%80%E7%B4%A2"><span class="toc-text">3.3.1 目录检索</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E5%AF%BB%E5%9D%80"><span class="toc-text">文件寻址</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-4-%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="toc-text">3.4 文件目录的实现</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-%E7%A9%BA%E9%97%B2%E5%AD%98%E5%82%A8%E7%A9%BA%E9%97%B4%E7%9A%84%E7%AE%A1%E7%90%86"><span class="toc-text">4 空闲存储空间的管理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-%E7%A9%BA%E9%97%B2%E5%8C%BA%E8%A1%A8"><span class="toc-text">4.1 空闲区表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-%E7%A9%BA%E9%97%B2%E5%9D%97%E9%93%BE"><span class="toc-text">4.2 空闲块链</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3-%E4%BD%8D%E5%9B%BE"><span class="toc-text">4.3 位图</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-%E6%96%87%E4%BB%B6%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-text">5 文件的使用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6-%E6%96%87%E4%BB%B6%E5%85%B1%E4%BA%AB"><span class="toc-text">6 文件共享</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#6-1-%E6%99%AE%E9%80%9A%E7%9A%84%E6%96%87%E4%BB%B6%E5%85%B1%E4%BA%AB%E6%96%B9%E6%B3%95"><span class="toc-text">6.1 普通的文件共享方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#6-1-1-%E6%8C%89%E8%B7%AF%E5%BE%84%E5%90%8D%E8%AE%BF%E9%97%AE%E5%85%B1%E4%BA%AB%E6%96%87%E4%BB%B6"><span class="toc-text">6.1.1 按路径名访问共享文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-1-2-%E9%93%BE%E6%8E%A5%E6%B3%95"><span class="toc-text">6.1.2 链接法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-1-3-%E5%9F%BA%E6%9C%AC%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95BFD"><span class="toc-text">6.1.3 基本文件目录BFD</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-2-%E5%9F%BA%E4%BA%8EI%E8%8A%82%E7%82%B9%E7%9A%84%E6%96%87%E4%BB%B6%E5%85%B1%E4%BA%AB%E6%96%B9%E6%B3%95%EF%BC%88Unix%E9%87%87%E7%94%A8%EF%BC%89"><span class="toc-text">6.2 基于I节点的文件共享方法（Unix采用）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#6-2-1-%E7%A1%AC%E9%93%BE%E6%8E%A5"><span class="toc-text">6.2.1 硬链接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-2-3-%E7%AC%A6%E5%8F%B7%E9%93%BE%E6%8E%A5"><span class="toc-text">6.2.3 符号链接</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7-%E6%96%87%E4%BB%B6%E4%BF%9D%E6%8A%A4"><span class="toc-text">7 文件保护</span></a></li></ol> -->
+        <div class="toc"></div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- 手机端目录按钮 -->
+<div id="toc-mobile-btn">
+  <i class="fas fa-list-ul" aria-hidden="true"></i>
+</div>
+
+      
+  <section class="widget side_recent_post">
+    
+  <header>
+    
+      <a style="color: " href='/tags/'><i class="fas fa-book fa-fw" aria-hidden="true"></i><span class='name'>最新文章</span></a>
+    
+  </header>
+
+
+    <div class='content'>
+      
+      <!-- hash算法 -->
+      
+      <div class="aside-list">
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2023/12/02/about/index/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://s2.loli.net/2024/01/09/Hcm6aXduOKfvr13.png" class="lazyload placeholder" data-srcset="https://s2.loli.net/2024/01/09/Hcm6aXduOKfvr13.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">12-02</span>
+                
+              </div>
+              <a class="post-title" href="/2023/12/02/about/index/">关于我</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2023/10/20/Computer_system/Os/6%20%E8%AE%BE%E5%A4%87%E7%AE%A1%E7%90%86/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://pica.zhimg.com/80/v2-61f99f8dcf899f54cad2a1aa28b21e44_1440w.webp" class="lazyload placeholder" data-srcset="https://pica.zhimg.com/80/v2-61f99f8dcf899f54cad2a1aa28b21e44_1440w.webp" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">10-20</span>
+                
+              </div>
+              <a class="post-title" href="/2023/10/20/Computer_system/Os/6%20%E8%AE%BE%E5%A4%87%E7%AE%A1%E7%90%86/">操作系统（六）设备管理</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2023/10/19/Computer_system/Os/5%20%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://pic3.zhimg.com/80/v2-5f7cb7e900b9dcf5354c3d4d2c5cc3c2_1440w.webp" class="lazyload placeholder" data-srcset="https://pic3.zhimg.com/80/v2-5f7cb7e900b9dcf5354c3d4d2c5cc3c2_1440w.webp" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">10-19</span>
+                
+              </div>
+              <a class="post-title" href="/2023/10/19/Computer_system/Os/5%20%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/">操作系统（五）文件系统</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2023/10/18/Computer_system/Os/4%20%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://pic3.zhimg.com/80/v2-5f7cb7e900b9dcf5354c3d4d2c5cc3c2_1440w.webp" class="lazyload placeholder" data-srcset="https://pic3.zhimg.com/80/v2-5f7cb7e900b9dcf5354c3d4d2c5cc3c2_1440w.webp" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">10-18</span>
+                
+              </div>
+              <a class="post-title" href="/2023/10/18/Computer_system/Os/4%20%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/">操作系统（四）内存管理</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2023/10/17/Computer_system/Os/3%20%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%20%E4%B8%8B/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://s2.loli.net/2024/01/09/Hcm6aXduOKfvr13.png" class="lazyload placeholder" data-srcset="https://s2.loli.net/2024/01/09/Hcm6aXduOKfvr13.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">10-17</span>
+                
+              </div>
+              <a class="post-title" href="/2023/10/17/Computer_system/Os/3%20%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%20%E4%B8%8B/">操作系统（三）进程管理下</a>
+            </div>
+          </div>
+        
+      </div>
+    </div>
+  </section>
+
+    
+  </div>
+</aside>
+
+  <!-- 图片放大 Wrap images with fancybox support -->
+  <script src="/js/wrapImage.js"></script>
+</div>
+
+<!-- 文章详情页背景图 -->
+<div id="appBgSwiper" style="position: fixed;left: 0;top: 0;width: 100%;height: 100%;z-index: -2;"
+	:style="{'background-color': bgColor ? bgColor : 'transparent'}">
+	<transition-group tag="ul" :name="names">
+		<li v-for='(image,index) in img' :key='index' v-show="index === mark" class="bg-swiper-box">
+			<img :src="image" class="bg-swiper-img no-lazy">
+		</li>
+	</transition-group>
+</div>
+<script>
+	var vm = new Vue({
+		el: '#appBgSwiper',
+		data: {
+			names: '' || 'fade' || 'fade', // translate-fade fade
+			mark: 0,
+			img: [],
+			bgColor: '',
+			time: null
+		},
+		methods: {   //添加方法
+			change(i, m) {
+				if (i > m) {
+					// this.names = 'fade';
+				} else if (i < m) {
+					// this.names = 'fade';
+				} else {
+					return;
+				}
+				this.mark = i;
+			},
+			prev() {
+				// this.names = 'fade';
+				this.mark--;
+				if (this.mark === -1) {
+					this.mark = 3;
+					return
+				}
+			},
+			next() {
+				// this.names = 'fade';
+				this.mark++;
+				if (this.mark === this.img.length) {
+					this.mark = 0;
+					return
+				}
+			},
+			autoPlay() {
+				// this.names = 'fade';
+				this.mark++;
+				if (this.mark === this.img.length) {
+					this.mark = 0;
+					return
+				}
+			},
+			play() {
+				let bgImgDelay = '' || '180000'
+				let delay = parseInt(bgImgDelay) || 180000;
+				this.time = setInterval(this.autoPlay, delay);
+			},
+			enter() {
+				clearInterval(this.time);
+			},
+			leave() {
+				this.play();
+			}
+		},
+		created() {
+			this.play()
+		},
+		beforeDestroy() {
+			clearInterval(this.time);
+		},
+		mounted() {
+			let prop = '' || '';
+			let isImg = prop.includes('.bmp') || prop.includes('.jpg') || prop.includes('.png') || prop.includes('.tif') || prop.includes('.gif') || prop.includes('.pcx') || prop.includes('.tga') || prop.includes('.exif') || prop.includes('.fpx') || prop.includes('.psd') || prop.includes('.cdr') || prop.includes('.pcd') || prop.includes('.dxf') || prop.includes('.ufo') || prop.includes('.eps') || prop.includes('.ai') || prop.includes('.raw') || prop.includes('.WMF') || prop.includes('.webp') || prop.includes('.jpeg') || prop.includes('http://') || prop.includes('https://')
+			if (isImg) {
+				let img = prop.split(',');
+				let configRoot = '/'
+				let arrImg = [];
+				img.forEach(el => {
+					var Expression = /http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w- .\/?%&=]*)?/;
+					var objExp = new RegExp(Expression);
+
+					if (objExp.test(el)) {
+						// http or https
+						arrImg.push(el);
+					} else {
+						// 非http or https开头
+						// 本地文件
+						let firstStr = el.charAt(0);
+						if (firstStr == '/') {
+							el = el.substr(1); // 删除第一个字符 '/',因为 configRoot最后一个字符为 /
+						}
+						el = configRoot + el;
+						arrImg.push(el);
+					}
+				})
+				this.img = arrImg;
+			} else {
+				this.bgColor = prop;
+			}
+		}
+	})
+</script>
+
+<style>
+	.bg-swiper-box {
+		position: absolute;
+		display: block;
+		width: 100%;
+		height: 100%;
+	}
+
+	.bg-swiper-img {
+		object-fit: cover;
+		width: 100%;
+		height: 100%;
+	}
+</style>
+
+
+
+
+  <script>
+  function loadMermaid() {
+    if (document.getElementsByClassName('mermaid').length) {
+      if (window.mermaidJsLoad) mermaid.init()
+      else {
+        loadScript('https://unpkg.com/mermaid/dist/mermaid.min.js').then(() => {
+          window.mermaidJsLoad = true
+          mermaid.initialize({
+            theme: 'default',
+          })
+          if ('true') {
+            mermaid.init();
+          }
+        })
+      }
+    }
+  };
+  document.addEventListener("DOMContentLoaded", function () {
+    loadMermaid();
+  })
+
+  document.addEventListener('pjax:complete', function () {
+    loadMermaid();
+  })
+  
+</script>
+
+
+      </main>
+    </div>
+
+    <!-- 页脚 -->
+    
+  
+  
+    <!-- 底部鱼儿跳动效果，依赖于jquery-->
+<div id="j-fish-skip" style=" position: relative;height: 153px;width: auto;"></div>
+<script>
+  var RENDERER = {
+    POINT_INTERVAL: 5,
+    FISH_COUNT: 3,
+    MAX_INTERVAL_COUNT: 50,
+    INIT_HEIGHT_RATE: .5,
+    THRESHOLD: 50,
+    FISH_COLOR: '',
+    init: function () {
+      this.setFishColor(); this.setParameters(), this.reconstructMethods(), this.setup(), this.bindEvent(), this.render()
+    },
+    setFishColor: function () {
+      let isDark = JSON.parse(localStorage.getItem('dark')) || JSON.parse('false');
+      if (isDark) {
+        this.FISH_COLOR = '#222'; // 暗黑色，有时间把这整成一个变量
+      } else {
+        this.FISH_COLOR = '' || 'rgba(66, 185, 133, 0.8)';
+      }
+    },
+    setParameters: function () {
+      this.$window = $(window), this.$container = $("#j-fish-skip"), this.$canvas = $("<canvas />"), this.context = this.$canvas.appendTo(this.$container).get(0).getContext("2d"), this.points = [], this.fishes = [], this.watchIds = []
+    },
+    createSurfacePoints: function () {
+      var t = Math.round(this.width / this.POINT_INTERVAL);
+      this.pointInterval = this.width / (t - 1), this.points.push(new SURFACE_POINT(this, 0));
+      for (var i = 1; i < t; i++) {
+        var e = new SURFACE_POINT(this, i * this.pointInterval),
+          h = this.points[i - 1];
+        e.setPreviousPoint(h), h.setNextPoint(e), this.points.push(e)
+      }
+    },
+    reconstructMethods: function () {
+      this.watchWindowSize = this.watchWindowSize.bind(this), this.jdugeToStopResize = this.jdugeToStopResize.bind(this), this.startEpicenter = this.startEpicenter.bind(this), this.moveEpicenter = this.moveEpicenter.bind(this), this.reverseVertical = this.reverseVertical.bind(this), this.render = this.render.bind(this)
+    },
+    setup: function () {
+      this.points.length = 0, this.fishes.length = 0, this.watchIds.length = 0, this.intervalCount = this.MAX_INTERVAL_COUNT, this.width = this.$container.width(), this.height = this.$container.height(), this.fishCount = this.FISH_COUNT * this.width / 500 * this.height / 500, this.$canvas.attr({
+        width: this.width,
+        height: this.height
+      }), this.reverse = !1, this.fishes.push(new FISH(this)), this.createSurfacePoints()
+    },
+    watchWindowSize: function () {
+      this.clearTimer(), this.tmpWidth = this.$window.width(), this.tmpHeight = this.$window.height(), this.watchIds.push(setTimeout(this.jdugeToStopResize, this.WATCH_INTERVAL))
+    },
+    clearTimer: function () {
+      for (; this.watchIds.length > 0;) clearTimeout(this.watchIds.pop())
+    },
+    jdugeToStopResize: function () {
+      var t = this.$window.width(),
+        i = this.$window.height(),
+        e = t == this.tmpWidth && i == this.tmpHeight;
+      this.tmpWidth = t, this.tmpHeight = i, e && this.setup()
+    },
+    bindEvent: function () {
+      this.$window.on("resize", this.watchWindowSize), this.$container.on("mouseenter", this.startEpicenter), this.$container.on("mousemove", this.moveEpicenter)
+    },
+    getAxis: function (t) {
+      var i = this.$container.offset();
+      return {
+        x: t.clientX - i.left + this.$window.scrollLeft(),
+        y: t.clientY - i.top + this.$window.scrollTop()
+      }
+    },
+    startEpicenter: function (t) {
+      this.axis = this.getAxis(t)
+    },
+    moveEpicenter: function (t) {
+      var i = this.getAxis(t);
+      this.axis || (this.axis = i), this.generateEpicenter(i.x, i.y, i.y - this.axis.y), this.axis = i
+    },
+    generateEpicenter: function (t, i, e) {
+      if (!(i < this.height / 2 - this.THRESHOLD || i > this.height / 2 + this.THRESHOLD)) {
+        var h = Math.round(t / this.pointInterval);
+        h < 0 || h >= this.points.length || this.points[h].interfere(i, e)
+      }
+    },
+    reverseVertical: function () {
+      this.reverse = !this.reverse;
+      for (var t = 0, i = this.fishes.length; t < i; t++) this.fishes[t].reverseVertical()
+    },
+    controlStatus: function () {
+      for (var t = 0, i = this.points.length; t < i; t++) this.points[t].updateSelf();
+      for (t = 0, i = this.points.length; t < i; t++) this.points[t].updateNeighbors();
+      this.fishes.length < this.fishCount && 0 == --this.intervalCount && (this.intervalCount = this.MAX_INTERVAL_COUNT, this.fishes.push(new FISH(this)))
+    },
+    render: function () {
+      requestAnimationFrame(this.render), this.controlStatus(), this.context.clearRect(0, 0, this.width, this.height), this.context.fillStyle = this.FISH_COLOR;
+      for (var t = 0, i = this.fishes.length; t < i; t++) this.fishes[t].render(this.context);
+      this.context.save(), this.context.globalCompositeOperation = "xor", this.context.beginPath(), this.context.moveTo(0, this.reverse ? 0 : this.height);
+      for (t = 0, i = this.points.length; t < i; t++) this.points[t].render(this.context);
+      this.context.lineTo(this.width, this.reverse ? 0 : this.height), this.context.closePath(), this.context.fill(), this.context.restore()
+    }
+  },
+  SURFACE_POINT = function (t, i) {
+    this.renderer = t, this.x = i, this.init()
+  };
+  SURFACE_POINT.prototype = {
+    SPRING_CONSTANT: .03,
+    SPRING_FRICTION: .9,
+    WAVE_SPREAD: .3,
+    ACCELARATION_RATE: .01,
+    init: function () {
+      this.initHeight = this.renderer.height * this.renderer.INIT_HEIGHT_RATE, this.height = this.initHeight, this.fy = 0, this.force = {
+        previous: 0,
+        next: 0
+      }
+    },
+    setPreviousPoint: function (t) {
+      this.previous = t
+    },
+    setNextPoint: function (t) {
+      this.next = t
+    },
+    interfere: function (t, i) {
+      this.fy = this.renderer.height * this.ACCELARATION_RATE * (this.renderer.height - this.height - t >= 0 ? -1 : 1) * Math.abs(i)
+    },
+    updateSelf: function () {
+      this.fy += this.SPRING_CONSTANT * (this.initHeight - this.height), this.fy *= this.SPRING_FRICTION, this.height += this.fy
+    },
+    updateNeighbors: function () {
+      this.previous && (this.force.previous = this.WAVE_SPREAD * (this.height - this.previous.height)), this.next && (this.force.next = this.WAVE_SPREAD * (this.height - this.next.height))
+    },
+    render: function (t) {
+      this.previous && (this.previous.height += this.force.previous, this.previous.fy += this.force.previous), this.next && (this.next.height += this.force.next, this.next.fy += this.force.next), t.lineTo(this.x, this.renderer.height - this.height)
+    }
+  };
+  var FISH = function (t) {
+    this.renderer = t, this.init()
+  };
+  FISH.prototype = {
+    GRAVITY: .4,
+    init: function () {
+      this.direction = Math.random() < .5, this.x = this.direction ? this.renderer.width + this.renderer.THRESHOLD : -this.renderer.THRESHOLD, this.previousY = this.y, this.vx = this.getRandomValue(4, 10) * (this.direction ? -1 : 1), this.renderer.reverse ? (this.y = this.getRandomValue(1 * this.renderer.height / 10, 4 * this.renderer.height / 10), this.vy = this.getRandomValue(2, 5), this.ay = this.getRandomValue(.05, .2)) : (this.y = this.getRandomValue(6 * this.renderer.height / 10, 9 * this.renderer.height / 10), this.vy = this.getRandomValue(-5, -2), this.ay = this.getRandomValue(-.2, -.05)), this.isOut = !1, this.theta = 0, this.phi = 0
+    },
+    getRandomValue: function (t, i) {
+      return t + (i - t) * Math.random()
+    },
+    reverseVertical: function () {
+      this.isOut = !this.isOut, this.ay *= -1
+    },
+    controlStatus: function (t) {
+      this.previousY = this.y, this.x += this.vx, this.y += this.vy, this.vy += this.ay, this.renderer.reverse ? this.y > this.renderer.height * this.renderer.INIT_HEIGHT_RATE ? (this.vy -= this.GRAVITY, this.isOut = !0) : (this.isOut && (this.ay = this.getRandomValue(.05, .2)), this.isOut = !1) : this.y < this.renderer.height * this.renderer.INIT_HEIGHT_RATE ? (this.vy += this.GRAVITY, this.isOut = !0) : (this.isOut && (this.ay = this.getRandomValue(-.2, -.05)), this.isOut = !1), this.isOut || (this.theta += Math.PI / 20, this.theta %= 2 * Math.PI, this.phi += Math.PI / 30, this.phi %= 2 * Math.PI), this.renderer.generateEpicenter(this.x + (this.direction ? -1 : 1) * this.renderer.THRESHOLD, this.y, this.y - this.previousY), (this.vx > 0 && this.x > this.renderer.width + this.renderer.THRESHOLD || this.vx < 0 && this.x < -this.renderer.THRESHOLD) && this.init()
+    },
+    render: function (t) {
+      t.save(), t.translate(this.x, this.y), t.rotate(Math.PI + Math.atan2(this.vy, this.vx)), t.scale(1, this.direction ? 1 : -1), t.beginPath(), t.moveTo(-30, 0), t.bezierCurveTo(-20, 15, 15, 10, 40, 0), t.bezierCurveTo(15, -10, -20, -15, -30, 0), t.fill(), t.save(), t.translate(40, 0), t.scale(.9 + .2 * Math.sin(this.theta), 1), t.beginPath(), t.moveTo(0, 0), t.quadraticCurveTo(5, 10, 20, 8), t.quadraticCurveTo(12, 5, 10, 0), t.quadraticCurveTo(12, -5, 20, -8), t.quadraticCurveTo(5, -10, 0, 0), t.fill(), t.restore(), t.save(), t.translate(-3, 0), t.rotate((Math.PI / 3 + Math.PI / 10 * Math.sin(this.phi)) * (this.renderer.reverse ? -1 : 1)), t.beginPath(), this.renderer.reverse ? (t.moveTo(5, 0), t.bezierCurveTo(10, 10, 10, 30, 0, 40), t.bezierCurveTo(-12, 25, -8, 10, 0, 0)) : (t.moveTo(-5, 0), t.bezierCurveTo(-10, -10, -10, -30, 0, -40), t.bezierCurveTo(12, -25, 8, -10, 0, 0)), t.closePath(), t.fill(), t.restore(), t.restore(), this.controlStatus(t)
+    }
+  }, $(function () {
+    RENDERER.init()
+    $('.dark').click(function () {
+      setTimeout(() => {
+        RENDERER.setFishColor();
+        RENDERER.context.fill();
+      });
+    })
+  });
+</script>
+  
+  <div class="footer bg-color">
+    <div class="footer-main">
+      
+        
+          <div class="link">
+            
+          </div>
+        
+      
+        
+          <div class="footer-copyright">
+            <p>Playing with cute fish </p>
+
+          </div>
+        
+      
+    </div>
+  </div>
+
+
+
+    <!-- 渲染暗黑按钮 -->
+    
+      <div class="dark">
+  <div class="dark-content">
+    <i class="fas fa-moon" aria-hidden="true"></i>
+    <!-- <span>关灯</span> -->
+  </div>
+  
+</div>
+
+<script>
+  $(function() {
+    let isDark = JSON.parse(localStorage.getItem('dark'))  || JSON.parse('false');
+    if (isDark) {
+      $(".dark-content").replaceWith(
+          `
+          <div class='dark-content'>
+            <i class="fas fa-lightbulb" aria-hidden="true"></i>
+          </div>
+          `
+        );
+    }
+    $('.dark').click(function() {
+      if ($(document.body).is('.darkModel')) {
+        $(document.body).removeClass('darkModel');
+        localStorage.setItem('dark', false);
+        $(".dark-content").replaceWith(
+          `
+          <div class='dark-content'>
+            <i class="fas fa-moon" aria-hidden="true"></i>
+          </div>
+          `
+        );
+      } else {
+        $(document.body).addClass('darkModel');
+        localStorage.setItem('dark', true);
+        $(".dark-content").replaceWith(
+          `
+          <div class='dark-content'>
+            <i class="fas fa-lightbulb" aria-hidden="true"></i>
+          </div>
+          `
+        );
+      }
+    })
+  })
+</script>
+    
+    <!-- 渲染回到顶部按钮 -->
+    
+      <div class="goTop top-btn-color" pointer>
+  <i class="fas fa-arrow-up" aria-hidden="true"></i>
+</div>
+<script src="/js/goTop.js"></script>
+
+    
+    <!-- 渲染左下角音乐播放器 -->
+    
+
+    <!-- 图片放大 -->
+    
+      <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+    
+
+    <!-- 百度解析 -->
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <!-- 背景彩带 -->
+    
+      <script type="text/javascript" size="100" alpha='0.4' zIndex="-1" src="/js/ribbon.min.js"></script>
+    
+
+    <script src="/js/utils/index.js"></script>
+    <script src="/js/app.js"></script>
+    
+    <!-- 文章目录所需js -->
+<!-- <link href="/js/tocbot/tocbot.css" rel="stylesheet">
+<script src="/js/tocbot/tocbot.min.js"></script> -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.18.2/tocbot.min.js"></script>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.18.2/tocbot.css">
+
+<script>
+  var headerEl = 'h1,h2,h3',  //headers 
+    content = '.post-detail',//文章容器
+    idArr = {};  //标题数组以确定是否增加索引id
+  //add #id
+  var option = {
+    // Where to render the table of contents.
+    tocSelector: '.toc',
+    // Where to grab the headings to build the table of contents.
+    contentSelector: content,
+    // Which headings to grab inside of the contentSelector element.
+    headingSelector: headerEl,
+    scrollSmooth: true,
+    scrollSmoothOffset: -70,
+    // headingsOffset: -($(window).height() * 0.4 - 45),
+    headingsOffset: -($(window).height() * 0.4 - 70),
+    // positionFixedSelector: '.toc-main',
+    // positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+    activeLinkClass: 'is-active-link',
+    orderedList: true,
+    collapseDepth: 20,
+    // onClick: function (e) {},
+  }
+  if ($('.toc').length > 0) {
+
+    $(content).children(headerEl).each(function () {
+      //去除空格以及多余标点
+      var headerId = $(this).text().replace(/[\s|\~|`|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\_|\+|\=|\||\|\[|\]|\{|\}|\;|\:|\"|\'|\,|\<|\.|\>|\/|\?|\：|\，|\。]/g, '');
+
+      headerId = headerId.toLowerCase();
+      if (idArr[headerId]) {
+        //id已经存在
+        $(this).attr('id', headerId + '-' + idArr[headerId]);
+        idArr[headerId]++;
+      }
+      else {
+        //id未存在
+        idArr[headerId] = 1;
+        $(this).attr('id', headerId);
+      }
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+      tocbot.init(option);
+      mobileTocClick();
+    });
+
+  }
+
+  window.tocScrollFn = function () {
+    return bamboo.throttle(function () {
+      findHeadPosition();
+    }, 100)()
+  }
+  window.addEventListener('scroll', tocScrollFn);
+
+  const findHeadPosition = function (top) {
+    if ($('.toc-list').length <= 0) {
+      return false;
+    }
+    setTimeout(() => {  // or DOMContentLoaded 
+      autoScrollToc();
+    }, 0);
+  }
+
+  const autoScrollToc = function () {
+    const $activeItem = document.querySelector('.is-active-link');
+    const $cardToc = document.querySelector('.toc-content');
+    const activePosition = $activeItem.getBoundingClientRect().top
+    const sidebarScrollTop = $cardToc.scrollTop
+    if (activePosition > (document.documentElement.clientHeight - 100)) {
+      $cardToc.scrollTop = sidebarScrollTop + 150
+    }
+    if (activePosition < 150) {
+      $cardToc.scrollTop = sidebarScrollTop - 150
+    }
+  }
+
+  document.addEventListener('pjax:send', function () {
+    if ($('.toc').length) {
+      tocbot.destroy();
+    }
+  });
+
+  document.addEventListener('pjax:complete', function () {
+    if ($('.toc').length) {
+      tocbot.init(option);
+      mobileTocClick();
+    }
+  });
+  
+  // 手机端toc按钮点击出现目录
+  const mobileTocClick = function () {
+    const $cardTocLayout = document.getElementsByClassName('side_toc')[0];
+    const $cardToc = $cardTocLayout.getElementsByClassName('toc-content')[0];
+    let right = '45px';
+    if (window.innerWidth >= 551 && window.innerWidth <= 992) {
+      right = '100px'
+    }
+    const mobileToc = {
+      open: () => {
+        $cardTocLayout.style.cssText = 'animation: toc-open .3s; opacity: 1; right: ' + right
+      },
+
+      close: () => {
+        $cardTocLayout.style.animation = 'toc-close .2s'
+        setTimeout(() => {
+          $cardTocLayout.style.cssText = "opacity:''; animation: ''; right: ''"
+        }, 100)
+      }
+    }
+    document.getElementById('toc-mobile-btn').addEventListener('click', () => {
+      if (window.getComputedStyle($cardTocLayout).getPropertyValue('opacity') === '0') mobileToc.open()
+      else mobileToc.close()
+    })
+
+    $cardToc.addEventListener('click', (e) => {
+      if (window.innerWidth < 992) { // 小于992px的时候
+        mobileToc.close()
+      }
+    })
+  }
+</script>
+
+<style>
+  /* .is-position-fixed {
+    position: sticky !important;
+    top: 74px;
+  }
+
+  .toc-main ul {
+    counter-reset: show-list;
+  }
+
+  .toc-main ul li::before {
+    content: counter(item)".";
+    display: block;
+    position: absolute;
+    left: 12px;
+    top: 0;
+  } */
+</style>
+ 
+
+<!-- 设置导航背景 -->
+<script>
+  let setHeaderClass = () => {
+    const nav = $('#navHeader');
+    const navTop = nav.outerHeight();
+    const winTop = $(window).scrollTop();
+    if(winTop > navTop) {
+      nav.addClass('header-bg-color');
+    }
+    else {
+      nav.removeClass('header-bg-color');
+    }
+  };
+
+  let scrollCollect = () => {
+    return bamboo.throttle(function (e) {
+      setHeaderClass();
+    }, 200)()
+  }
+
+  let initHeaderBg = () => {
+    setHeaderClass();
+  }
+
+  setHeaderClass();
+  window.addEventListener('scroll', scrollCollect);
+
+  document.addEventListener('pjax:send', function () {
+    window.removeEventListener('scroll', scrollCollect)
+  })
+  document.addEventListener('pjax:complete', function () {
+    window.addEventListener('scroll', scrollCollect);
+    setHeaderClass();
+  })
+</script> 
+
+<!-- 渲染issues标签里的内容 -->
+<script>
+  function loadIssuesJS() {
+    if ($(".post-detail").find(".issues-api").length == 0) {
+      return;
+    } 
+    loadScript('/js/issues/index.js');
+  };
+  $(function () {
+    loadIssuesJS();
+  });
+  document.addEventListener('pjax:complete', function () {
+    if (typeof IssuesAPI == "undefined") {
+      loadIssuesJS();
+    }
+  })
+</script>
+
+<!-- 渲染远程json加载的图片标签(getPhotoOnline)里的内容 -->
+<script>
+  function loadPhotoOnlineJS() {
+    if ($(".post-detail").find(".getJsonPhoto-api").length == 0) {
+      return;
+    } 
+    loadScript('/js/getPhotoOnline/index.js');
+  };
+  $(function () {
+    loadPhotoOnlineJS();
+  });
+  document.addEventListener('pjax:complete', function () {
+    if (typeof getPhotoJson == "undefined") {
+      loadPhotoOnlineJS();
+    }
+  })
+</script>
+
+<!-- 渲染远程json加载的talk标签(getTalkOnline)里的内容 -->
+<script>
+  function loadTalkOnlineJS() {
+    if ($(".post-detail").find(".getJsonTalk-api").length == 0) {
+      return;
+    } 
+    loadScript('https://cdnjs.cloudflare.com/ajax/libs/waterfall.js/1.0.2/waterfall.min.js'); // 瀑布流插件，https://raphamorim.io/waterfall.js/
+    loadScript('/js/getTalkOnline/index.js');
+  };
+  $(function () {
+    loadTalkOnlineJS();
+  });
+  document.addEventListener('pjax:complete', function () {
+    if (typeof getTalkJson == "undefined") {
+      loadTalkOnlineJS();
+    }
+  })
+</script>
+
+<!-- 渲染远程json加载的site-card标签(getSiteOnline)里的内容 -->
+<script>
+  function loadSiteOnlineJS() {
+    if ($(".post-detail").find(".getJsonSite-api").length == 0) {
+      return;
+    } 
+    loadScript('/js/getSiteOnline/index.js');
+  };
+  $(function () {
+    loadSiteOnlineJS();
+  });
+  document.addEventListener('pjax:complete', function () {
+    if (typeof getSiteJson == "undefined") {
+      loadSiteOnlineJS();
+    }
+  })
+</script>
+
+<!-- 输入框打字特效 -->
+<!-- 输入框打字特效 -->
+
+  <script src="/js/activate-power-mode.js"></script>
+  <script>
+    POWERMODE.colorful = true;  // 打开随机颜色特效
+    POWERMODE.shake = false;    // 关闭输入框抖动
+    document.body.addEventListener('input', POWERMODE);//监听打字事件
+  </script>
+
+
+<!-- markdown代码一键复制功能 -->
+
+  <link rel="stylesheet" href="https://unpkg.com/v-plugs-ayu/lib/ayu.css">
+  <script src="https://unpkg.com/v-plugs-ayu/lib/ayu.umd.min.js"></script>
+  <script src="/js/clipboard/clipboard.min.js"></script>
+  <div id="appCopy">
+  </div>
+  <script data-pjax>
+    var vm = new Vue({
+      el: '#appCopy',
+      data: {
+      },
+      computed: {
+      },
+      mounted() {
+        const that = this;
+        var copy = 'copy';
+        /* code */
+        var initCopyCode = function () {
+          var copyHtml = '';
+          copyHtml += '<button class="btn-copy" data-clipboard-snippet="" style="position:absolute;top:0;right:0;z-index:1;">';
+          copyHtml += '<i class="fas fa-copy"></i><span>' + copy + '</span>';
+          copyHtml += '</button>';
+          $(".post-detail pre").not('.gutter pre').wrap("<div class='codeBox' style='position:relative;width:100%;'></div>")
+          $(".post-detail pre").not('.gutter pre').before(copyHtml);
+          new ClipboardJS('.btn-copy', {
+            target: function (trigger) {
+              return trigger.nextElementSibling;
+            }
+          });
+        }
+        initCopyCode();
+        $('.btn-copy').unbind('click').bind('click', function () {
+          doSomething();
+        })
+        $(document).unbind('keypress').bind('keypress', function (e) {
+          if (e.ctrlKey && e.keyCode == 67) {
+            doSomething();
+          }
+        })
+
+        function doSomething() {
+          that.$notify({
+            title: "成功",
+            content: "代码已复制，请遵守相关授权协议。",
+            type: 'success'
+          })
+        }
+      },
+      methods: {
+      },
+      created() { }
+    })
+  </script>
+  
+
+<!-- 图片懒加载 -->
+<script defer src="https://unpkg.com/vanilla-lazyload@17.1.0/dist/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazyload",
+    threshold: 0
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    lazyLoadInstance.update();
+  });
+  document.addEventListener('pjax:complete', function () {
+    lazyLoadInstance.update();
+  });
+</script>
+
+
+<!-- 卡片滚动动画 -->
+   
+
+<!-- 评论所需js -->
+
+  
+    <!-- 弹幕所需的css和js -->
+    
+<!-- 具体js，请前往valine/script.ejs查看 -->
+
+    <script>
+  var requiredFields = '';
+  requiredFields = requiredFields.split(',');
+  comment_el = '.comment';
+  let looperValine = null;
+  load_valine = function () {
+    if ($(comment_el).length) {
+      var valine = new Valine({
+        el: '#vcomment',
+        path: window.location.pathname,
+        notify: false,
+        verify: false,
+        app_id: "gBVzFO88pWQDSZEwn88oZ86N-gzGzoHsz",
+        app_key: "qnePoijR7NSwE1uWUicBy2R9",
+        placeholder: "客官，说点什么吧",
+        avatar: "",
+        master: "",   //博主邮箱md5
+        tagMeta: ["博主","小伙伴","访客"],     //标识字段名
+        friends: "",
+        metaPlaceholder: { "nick": "昵称/QQ号", "mail": "邮箱" },
+        requiredFields: requiredFields,
+        enableQQ: true,
+      });
+      function debounce(fn) {
+        var timerID = null
+        return function () {
+          var arg = arguments[0]   //获取事件
+          if (timerID) {
+            clearTimeout(timerID)
+          }
+          timerID = setTimeout(function () {
+            fn(arg)              //事件传入函数
+          }, 200)
+        }
+      }
+      //查询评论 valine.Q('*').limit(7) -- 查询所有，限制7条, 下面的的代码是查询当前页面
+      var themeDanmu = eval('false');
+      var themeLoop = eval('false');
+      var themeLooperTime = '5000' || 5000;
+      var speed = '40' || 20;
+      var isBarrager = true;
+      if (themeDanmu == true) {
+        do_barrager();
+        if ($('.danmuBox').length <= 0) {
+          $('.navbar').append('<div class="danmuBox"><div class="danmuBtn open"><span class="danmuCircle"></span><span class="danmuText">弹幕</span></div></div>');
+        }
+        $('.danmuBtn').on('click', debounce(
+          function () {
+            if ($('.danmuBtn').hasClass('open')) {
+              $('.danmuBtn').removeClass('open')
+              clearInterval(looperValine);
+              $.fn.barrager.removeAll();
+            } else {
+              $('.danmuBtn').addClass("open");
+              do_barrager();
+            }
+          }
+        ))
+      }
+      function do_barrager() {
+        isBarrager && valine.Q(window.location.pathname).find().then(function (comments) {
+          // var num = 0; // 可以记录条数，循环调用的时候只取最新的评论放入弹幕中
+          var run_once = true;
+          var looper_time = themeLooperTime;
+          var total = comments.length;
+          // var looper = null;
+          var index = 0;
+          if (total > 0) {
+            barrager();
+          } else {
+            // 当评论数为0的时候，自动关闭弹幕
+            // $('.danmuBtn').removeClass('open');
+          }
+          function barrager() {
+            if (run_once) {
+              //如果是首次执行,则设置一个定时器,并且把首次执行置为false
+              looperValine = setInterval(barrager, looper_time);
+              run_once = false;
+            }
+            var content = comments[index]._serverData.comment;
+            var email = comments[index]._serverData.mail;
+            var link = comments[index]._serverData.link;
+            var newcontent = content.substring(0, 50).replace(/<[^>]+>/g, "");
+            //发布一个弹幕
+            const item = {
+              img: `https://q1.qlogo.cn/g?b=qq&nk=${email}&s=640`, //图片 
+              info: newcontent, //文字 
+              href: link, //链接 
+              close: true, //显示关闭按钮 
+              speed: speed, //延迟,单位秒,默认6 
+              color: '#fff', //颜色,默认白色 
+              old_ie_color: '#000000', //ie低版兼容色,不能与网页背景相同,默认黑色
+            }
+            $('body').barrager(item);
+            //索引自增
+            index++;
+            //所有弹幕发布完毕，清除计时器。
+            if (index == total) {
+              clearInterval(looperValine);
+              if (themeLoop === true) {
+                setTimeout(function () {
+                  do_barrager();
+                }, 5000);
+              } else {
+                $('.danmuBtn').removeClass('open');
+              }
+              return false;
+            }
+
+          }
+        })
+      }
+    }
+  };
+  $(document).ready(load_valine);
+  document.addEventListener('pjax:send', function (e) {
+    
+  })
+  document.addEventListener('pjax:complete', function () {
+    load_valine();
+  });
+</script>
+
+  
+
+
+<!-- 鼠标点击特效 -->
+<!-- 爱心点击 -->
+
+  
+    <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 999; pointer-events: none;" ></canvas>
+    <script src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script>
+    <script src="/js/cursor/explosion.min.js"></script>
+  
+
+
+
+
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" data-pjax></script>
+
+
+<!-- 轮播图标签 -->
+<script>
+  var bambooSwiperTag = {};
+  function load_swiper() {
+    if (!document.querySelectorAll(".post-swiper-container")[0]) return;
+    loadCSS("https://unpkg.com/swiper@6/swiper-bundle.min.css")
+    loadScript("https://unpkg.com/swiper@6/swiper-bundle.min.js").then(() => {
+      pjax_swiper();
+    });
+  }
+
+  load_swiper();
+
+  function pjax_swiper() {
+    bambooSwiperTag.swiper = new Swiper('.post-swiper-container', {
+      slidesPerView: 'auto',
+      spaceBetween: 8,
+      centeredSlides: true,
+      loop: true,
+      autoplay: true ? {
+        delay: 3000,
+        stopOnLastSlide: false,
+        disableOnInteraction: false,
+      } : false,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      on:{
+        init: function(){
+          swiperAnimateCache(this); //隐藏动画元素 
+          swiperAnimate(this); //初始化完成开始动画
+        }, 
+        slideChangeTransitionEnd: function(){ 
+          swiperAnimate(this); //每个slide切换结束时也运行当前slide动画
+          //this.slides.eq(this.activeIndex).find('.ani').removeClass('ani'); 动画只展现一次，去除ani类名
+        } 
+      }
+    });
+  }
+
+  document.addEventListener('pjax:complete', function () {
+    if (!document.querySelectorAll(".post-swiper-container")[0]) return;
+    if (typeof bambooSwiperTag.swiper === "undefined") {
+      load_swiper();
+    } else {
+      pjax_swiper();
+    }
+  });
+</script>
+    <!-- pjax -->
+    
+
+<!-- pjax -->
+
+
+  <script src="/js/pjax@0.2.8/index.js"></script>
+  
+    <!-- 样式位于：source/css/_third-party/pjaxanimate.styl -->
+
+<div class="pjax-animate">
+  
+    <div class="loading-circle"><div id="loader-circle"></div></div>
+    <script>
+      window.ShowLoading = function() {
+        $(".loading-circle").css("display", "block");
+      };
+      window.HideLoading = function() {
+        $(".loading-circle").css("display", "none");
+      }
+    </script>
+  
+	<script>
+    document.addEventListener('pjax:complete', function () {
+      window.HideLoading();
+    })
+    document.addEventListener('pjax:send', function () {
+      window.ShowLoading();
+    })
+    document.addEventListener('pjax:error', function () {
+      window.HideLoading();
+    })
+	</script>
+</div>
+
+  
+
+  <script>
+    var pjax = new Pjax({
+      elements: 'a[href]:not([href^="#"]):not([href="javascript:void(0)"]):not([no-pjax])',   // 拦截正常带链接的 a 标签
+      selectors: ["#pjax-container","title"],                                   // 根据实际需要确认重载区域
+      cacheBust: false,   // url 地址追加时间戳，用以避免浏览器缓存
+      timeout: 5000
+    });
+
+    document.addEventListener('pjax:send', function (e) {
+
+      try {
+        var currentUrl = window.location.pathname;
+        var targetUrl = e.triggerElement.href;
+        var banUrl = [""];
+        if (banUrl[0] != "") {
+          banUrl.forEach(item => {
+            if(currentUrl.indexOf(item) != -1 || targetUrl.indexOf(item) != -1) {
+              window.location.href = targetUrl;
+            }
+          });
+        }
+      } catch (error) {}
+
+      $(window).unbind('resize');
+      $(window).unbind('scroll');
+      $(document).unbind('scroll');
+      $(document).unbind('click');
+      $('body').unbind('click');
+
+    })
+    
+    document.addEventListener('pjax:complete', function () {
+      $('script[data-pjax], .pjax-reload script').each(function () {
+        $(this).parent().append($(this).remove());
+      });
+    });
+
+    document.addEventListener('pjax:error', function (e) {
+      window.location.href = e.triggerElement.href;
+    })
+    
+    // 刷新不从顶部开始
+    document.addEventListener("DOMContentLoaded", function () {
+      history.scrollRestoration = 'auto';
+    })
+  </script>
+
+
+
+  </body>
+</html>
