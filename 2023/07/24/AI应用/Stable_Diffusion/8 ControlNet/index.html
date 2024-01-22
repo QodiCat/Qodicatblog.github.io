@@ -501,21 +501,21 @@
 <p>然后在扩展选单里重新加载WebUI 界面，就可以在文生图和图生图里面看到了</p>
 <p>下载一个ControlNet模型（一般是pth和yaml文件）之后移动到ControlNet的扩展文件夹中</p>
 <h1 id="3-基本使用方式"><a href="#3-基本使用方式" class="headerlink" title="3 基本使用方式"></a>3 基本使用方式</h1><p>点开ControlNet控制网。输入一张图片，我们在这里期望输出的图片模仿我们输入图片的姿势</p>
-<p><img src="/img%5CStable_diffusion%5Cimage-20230913193208411.png" class="lazyload placeholder" data-srcset="/img%5CStable_diffusion%5Cimage-20230913193208411.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20230913193208411"></p>
-<p>我们从网上找一张<img src="Snipaste_2023-09-13_19-40-39.png" class="lazyload placeholder" data-srcset="Snipaste_2023-09-13_19-40-39.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="Snipaste_2023-09-13_19-40-39" style="zoom:50%;" />图片上传</p>
+<p><img src="https://qodicat-1321366457.cos.ap-beijing.myqcloud.com/OS/image-20230913193208411.png" class="lazyload placeholder" data-srcset="https://qodicat-1321366457.cos.ap-beijing.myqcloud.com/OS/image-20230913193208411.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20230913193208411"></p>
+<p>我们从网上找一张<img src="https://qodicat-1321366457.cos.ap-beijing.myqcloud.com/OS/Snipaste_2023-09-13_19-40-39.png" class="lazyload placeholder" data-srcset="https://qodicat-1321366457.cos.ap-beijing.myqcloud.com/OS/Snipaste_2023-09-13_19-40-39.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="Snipaste_2023-09-13_19-40-39" style="zoom:50%;" />图片上传</p>
 <p>选择预处理器（OpenPose就是提取姿势的），并选择相应的模型</p>
-<p><img src="/img%5CStable_diffusion%5Cimage-20230913194602605.png" class="lazyload placeholder" data-srcset="/img%5CStable_diffusion%5Cimage-20230913194602605.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20230913194602605"></p>
+<p><img src="https://qodicat-1321366457.cos.ap-beijing.myqcloud.com/OS/image-20230913194602605.png" class="lazyload placeholder" data-srcset="https://qodicat-1321366457.cos.ap-beijing.myqcloud.com/OS/image-20230913194602605.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20230913194602605"></p>
 <p>其他参数先维持不变</p>
 <p>加入我们期望的场景提示词，如在森林里</p>
 <blockquote>
 <p>1 cute girl, forest, smile,<br>SFW, (masterpiece:1.2), best quality, masterpiece, highres, original, extremely detailed wallpaper, perfect lighting,(extremely detailed CG:1.2)</p>
 </blockquote>
-<p>生成![00228-2167140323-1 cute girl, forest, smile, _SFW, (masterpiece_1.2), best quality, masterpiece, highres, original, extremely detailed wallpaper,](00228-2167140323-1 cute girl, forest, smile, _SFW, (masterpiece_1.2), best quality, masterpiece, highres, original, extremely detailed wallpaper,.png)</p>
+<p>生成<img src="https://qodicat-1321366457.cos.ap-beijing.myqcloud.com/OS/00228-2167140323-1%20cute%20girl,%20forest,%20smile,%20_SFW,%20(masterpiece_1.2),%20best%20quality,%20masterpiece,%20highres,%20original,%20extremely%20detailed%20wallpaper,.png" class="lazyload placeholder" data-srcset="https://qodicat-1321366457.cos.ap-beijing.myqcloud.com/OS/00228-2167140323-1%20cute%20girl,%20forest,%20smile,%20_SFW,%20(masterpiece_1.2),%20best%20quality,%20masterpiece,%20highres,%20original,%20extremely%20detailed%20wallpaper,.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="00228-2167140323-1 cute girl, forest, smile, _SFW, (masterpiece_1.2), best quality, masterpiece, highres, original, extremely detailed wallpaper,"></p>
 <p>更改一下提示词</p>
 <blockquote>
 <p>1 cute girl, city, smile,<br>SFW, (masterpiece:1.2), best quality, masterpiece, highres, original, extremely detailed wallpaper, perfect lighting,(extremely detailed CG:1.2)</p>
 </blockquote>
-<p>![00236-1319366320-1 cute girl, city, smile, white coat_SFW, (masterpiece_1.2), best quality, masterpiece, highres, original, extremely detailed wa](00236-1319366320-1 cute girl, city, smile, white coat_SFW, (masterpiece_1.2), best quality, masterpiece, highres, original, extremely detailed wa.png)</p>
+<p><img src="https://qodicat-1321366457.cos.ap-beijing.myqcloud.com/OS/00236-1319366320-1%20cute%20girl,%20city,%20smile,%20white%20coat_SFW,%20(masterpiece_1.2),%20best%20quality,%20masterpiece,%20highres,%20original,%20extremely%20detailed%20wa.png" class="lazyload placeholder" data-srcset="https://qodicat-1321366457.cos.ap-beijing.myqcloud.com/OS/00236-1319366320-1%20cute%20girl,%20city,%20smile,%20white%20coat_SFW,%20(masterpiece_1.2),%20best%20quality,%20masterpiece,%20highres,%20original,%20extremely%20detailed%20wa.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="00236-1319366320-1 cute girl, city, smile, white coat_SFW, (masterpiece_1.2), best quality, masterpiece, highres, original, extremely detailed wa"></p>
 <p>可以看出姿势完全不变</p>
 <p>同时它还会附加给我们一张骨骼图</p>
 <p><img src="http://127.0.0.1:6006/file=/tmp/tmpk7lwq82o.png" class="lazyload placeholder" data-srcset="http://127.0.0.1:6006/file=/tmp/tmpk7lwq82o.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="img"></p>
@@ -531,15 +531,15 @@
 <p>会在导入图片和你生成图片分辨率不匹配的时候起作用</p>
 <h2 id="3-2-代表性ControlNet模型应用"><a href="#3-2-代表性ControlNet模型应用" class="headerlink" title="3.2 代表性ControlNet模型应用"></a>3.2 代表性ControlNet模型应用</h2><h3 id="3-2-1-Open-Pose姿态"><a href="#3-2-1-Open-Pose姿态" class="headerlink" title="3.2.1 Open Pose姿态"></a>3.2.1 Open Pose姿态</h3><p>上面讲到的只是OpenPose的基本的身体整体骨骼的刻画</p>
 <p>选择不同的预处理器可以获得对手部，脸部更精确的刻画</p>
-<p><img src="/img%5CStable_diffusion%5Cimage-20230913200558559.png" class="lazyload placeholder" data-srcset="/img%5CStable_diffusion%5Cimage-20230913200558559.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20230913200558559"></p>
+<p><img src="https://qodicat-1321366457.cos.ap-beijing.myqcloud.com/OS/image-20230913200558559.png" class="lazyload placeholder" data-srcset="https://qodicat-1321366457.cos.ap-beijing.myqcloud.com/OS/image-20230913200558559.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20230913200558559"></p>
 <p>比如我们使用openpose_face,可以看到获得了更精细的脸部特征骨骼图</p>
-<p>![tmpbpgj9ukv (1)](tmpbpgj9ukv (1).png)</p>
+<p><img src="https://qodicat-1321366457.cos.ap-beijing.myqcloud.com/OS/tmpbpgj9ukv%20(1).png" class="lazyload placeholder" data-srcset="https://qodicat-1321366457.cos.ap-beijing.myqcloud.com/OS/tmpbpgj9ukv%20(1).png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="tmpbpgj9ukv (1)"></p>
 <h3 id="3-2-2-Depth-深度"><a href="#3-2-2-Depth-深度" class="headerlink" title="3.2.2 Depth 深度"></a>3.2.2 Depth 深度</h3><p>适合富有空间感的多层次场景</p>
 <h3 id="3-2-3-canny-边缘检测"><a href="#3-2-3-canny-边缘检测" class="headerlink" title="3.2.3 canny 边缘检测"></a>3.2.3 canny 边缘检测</h3><p>通过边缘来进行绘画输出，超级强大！！！</p>
 <p>比如我们这里用Canny检测器，可以生成几乎一模一样的</p>
-<p><img src="/img%5CStable_diffusion%5Cimage-20230913201834850.png" class="lazyload placeholder" data-srcset="/img%5CStable_diffusion%5Cimage-20230913201834850.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20230913201834850"></p>
+<p><img src="https://qodicat-1321366457.cos.ap-beijing.myqcloud.com/OS/image-20230913201834850.png" class="lazyload placeholder" data-srcset="https://qodicat-1321366457.cos.ap-beijing.myqcloud.com/OS/image-20230913201834850.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20230913201834850"></p>
 <p>可以实现线稿上色</p>
-<p><img src="/img%5CStable_diffusion%5Cimage-20230913202412411.png" class="lazyload placeholder" data-srcset="/img%5CStable_diffusion%5Cimage-20230913202412411.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20230913202412411"></p>
+<p><img src="https://qodicat-1321366457.cos.ap-beijing.myqcloud.com/OS/image-20230913202412411.png" class="lazyload placeholder" data-srcset="https://qodicat-1321366457.cos.ap-beijing.myqcloud.com/OS/image-20230913202412411.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="image-20230913202412411"></p>
 
       </div>
       <div class="post-tags-categories">
@@ -944,7 +944,91 @@
             
 
             <div class="post-img-box">
-              <a href="/2023/12/06/Computer_system/Database_system/5%20%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A7%84%E8%8C%83/" class="post-img " style="background-size: cover; 
+              <a href="/2023/12/22/AI%E7%AE%97%E6%B3%95/%E7%BB%8F%E5%85%B8%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/8%20%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9CRNN/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://pic3.zhimg.com/80/v2-7cfc909ebe8d83683909846edd6b5232_1440w.webp" class="lazyload placeholder" data-srcset="https://pic3.zhimg.com/80/v2-7cfc909ebe8d83683909846edd6b5232_1440w.webp" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">12-22</span>
+                
+              </div>
+              <a class="post-title" href="/2023/12/22/AI%E7%AE%97%E6%B3%95/%E7%BB%8F%E5%85%B8%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/8%20%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9CRNN/">经典网络（十）循环神经网络RNN</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2023/12/21/AI%E7%AE%97%E6%B3%95/%E7%BB%8F%E5%85%B8%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/4.3%20ResNet/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://pica.zhimg.com/80/v2-573ac3e25de03fad9c32add5a05e5cfc_1440w.webp" class="lazyload placeholder" data-srcset="https://pica.zhimg.com/80/v2-573ac3e25de03fad9c32add5a05e5cfc_1440w.webp" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">12-21</span>
+                
+              </div>
+              <a class="post-title" href="/2023/12/21/AI%E7%AE%97%E6%B3%95/%E7%BB%8F%E5%85%B8%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/4.3%20ResNet/">经典网络（七）ResNet全解析</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2023/12/20/AI%E7%AE%97%E6%B3%95/%E7%BB%8F%E5%85%B8%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/5.1%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://pic3.zhimg.com/80/v2-5f7cb7e900b9dcf5354c3d4d2c5cc3c2_1440w.webp" class="lazyload placeholder" data-srcset="https://pic3.zhimg.com/80/v2-5f7cb7e900b9dcf5354c3d4d2c5cc3c2_1440w.webp" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">12-20</span>
+                
+              </div>
+              <a class="post-title" href="/2023/12/20/AI%E7%AE%97%E6%B3%95/%E7%BB%8F%E5%85%B8%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/5.1%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/">经典CV任务（二）目标检测</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2023/12/20/AI%E7%AE%97%E6%B3%95/%E7%BB%8F%E5%85%B8%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/4.2%20GoogleNet%E8%A7%A3%E6%9E%90/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://pica.zhimg.com/80/v2-61f99f8dcf899f54cad2a1aa28b21e44_1440w.webp" class="lazyload placeholder" data-srcset="https://pica.zhimg.com/80/v2-61f99f8dcf899f54cad2a1aa28b21e44_1440w.webp" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">12-20</span>
+                
+              </div>
+              <a class="post-title" href="/2023/12/20/AI%E7%AE%97%E6%B3%95/%E7%BB%8F%E5%85%B8%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/4.2%20GoogleNet%E8%A7%A3%E6%9E%90/">经典网络（六）GoogleNet全解析</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2023/12/19/AI%E7%AE%97%E6%B3%95/%E7%BB%8F%E5%85%B8%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/7.1%20%E7%94%9F%E6%88%90%E7%BD%91%E7%BB%9CGAN/" class="post-img " style="background-size: cover; 
                 background-position: center center;">
                 <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://pic4.zhimg.com/80/v2-83ea273b88e119d9615aed0d89aad4ab_1440w.webp" class="lazyload placeholder" data-srcset="https://pic4.zhimg.com/80/v2-83ea273b88e119d9615aed0d89aad4ab_1440w.webp" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
               </a>
@@ -952,94 +1036,10 @@
             <div class="post-date-title">
               <div>
                 
-                  <span class="post-date">12-06</span>
+                  <span class="post-date">12-19</span>
                 
               </div>
-              <a class="post-title" href="/2023/12/06/Computer_system/Database_system/5%20%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A7%84%E8%8C%83/">数据库系统（六）数据库规范</a>
-            </div>
-          </div>
-        
-          <div class="aside-list-item">
-            
-            
-            
-
-            <div class="post-img-box">
-              <a href="/2023/12/05/Computer_system/Database_system/4%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E8%AE%BE%E8%AE%A1/" class="post-img " style="background-size: cover; 
-                background-position: center center;">
-                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://pic2.zhimg.com/80/v2-63bbdb5b76b8d349ad35ff4281efbd37_1440w.webp" class="lazyload placeholder" data-srcset="https://pic2.zhimg.com/80/v2-63bbdb5b76b8d349ad35ff4281efbd37_1440w.webp" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
-              </a>
-            </div>
-            <div class="post-date-title">
-              <div>
-                
-                  <span class="post-date">12-05</span>
-                
-              </div>
-              <a class="post-title" href="/2023/12/05/Computer_system/Database_system/4%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E8%AE%BE%E8%AE%A1/">数据库系统（五）数据库设计</a>
-            </div>
-          </div>
-        
-          <div class="aside-list-item">
-            
-            
-            
-
-            <div class="post-img-box">
-              <a href="/2023/12/04/Computer_system/Database_system/3-2%E4%B8%AD%E7%BA%A7%E5%92%8C%E8%BF%9B%E9%98%B6SQL/" class="post-img " style="background-size: cover; 
-                background-position: center center;">
-                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://qodicat-1321366457.cos.ap-beijing.myqcloud.com/Blog/alankennedy._flying_boys_blue_sky_white_clouds_small_horseMiyaz_406f046a-31b0-47bc-8842-b7cff28201d6.png" class="lazyload placeholder" data-srcset="https://qodicat-1321366457.cos.ap-beijing.myqcloud.com/Blog/alankennedy._flying_boys_blue_sky_white_clouds_small_horseMiyaz_406f046a-31b0-47bc-8842-b7cff28201d6.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
-              </a>
-            </div>
-            <div class="post-date-title">
-              <div>
-                
-                  <span class="post-date">12-04</span>
-                
-              </div>
-              <a class="post-title" href="/2023/12/04/Computer_system/Database_system/3-2%E4%B8%AD%E7%BA%A7%E5%92%8C%E8%BF%9B%E9%98%B6SQL/">数据库系统（四）中级和进阶SQL</a>
-            </div>
-          </div>
-        
-          <div class="aside-list-item">
-            
-            
-            
-
-            <div class="post-img-box">
-              <a href="/2023/12/03/Computer_system/Database_system/3-1SQL%E8%AF%AD%E5%8F%A5/" class="post-img " style="background-size: cover; 
-                background-position: center center;">
-                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://pic2.zhimg.com/80/v2-29e78b52051ce542adf6d786d61fbd19_1440w.webp" class="lazyload placeholder" data-srcset="https://pic2.zhimg.com/80/v2-29e78b52051ce542adf6d786d61fbd19_1440w.webp" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
-              </a>
-            </div>
-            <div class="post-date-title">
-              <div>
-                
-                  <span class="post-date">12-03</span>
-                
-              </div>
-              <a class="post-title" href="/2023/12/03/Computer_system/Database_system/3-1SQL%E8%AF%AD%E5%8F%A5/">数据库系统（三）SQL语句全解析</a>
-            </div>
-          </div>
-        
-          <div class="aside-list-item">
-            
-            
-            
-
-            <div class="post-img-box">
-              <a href="/2023/12/02/Computer_system/Database_system/2%20%E6%95%B0%E6%8D%AE%E5%BA%93%E5%85%B3%E7%B3%BB%E4%BB%A3%E6%95%B0/" class="post-img " style="background-size: cover; 
-                background-position: center center;">
-                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://pic3.zhimg.com/v2-a5267dfbf175991d4b3a69b41f3f678a_b.jpg" class="lazyload placeholder" data-srcset="https://pic3.zhimg.com/v2-a5267dfbf175991d4b3a69b41f3f678a_b.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
-              </a>
-            </div>
-            <div class="post-date-title">
-              <div>
-                
-                  <span class="post-date">12-02</span>
-                
-              </div>
-              <a class="post-title" href="/2023/12/02/Computer_system/Database_system/2%20%E6%95%B0%E6%8D%AE%E5%BA%93%E5%85%B3%E7%B3%BB%E4%BB%A3%E6%95%B0/">数据库系统（二）关系代数</a>
+              <a class="post-title" href="/2023/12/19/AI%E7%AE%97%E6%B3%95/%E7%BB%8F%E5%85%B8%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/7.1%20%E7%94%9F%E6%88%90%E7%BD%91%E7%BB%9CGAN/">经典网络（九）生成网络GAN</a>
             </div>
           </div>
         

@@ -11,7 +11,7 @@
   <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-  <title>分类器整体 | Qodicat&#39;s World</title>
+  <title>嵌入式系统（二）单片机基础 | Qodicat&#39;s World</title>
 
   <link rel="icon" type="image/x-icon, image/vnd.microsoft.icon" href="/favicon.ico">
   <link rel="stylesheet" href="https://at.alicdn.com/t/font_1911880_c1nvbyezg17.css">
@@ -442,21 +442,21 @@
 
 
 <div class="post-detail-header" id="thumbnail_canvas" style="background-repeat: no-repeat; background-size: cover; 
-  background-position: center center;position: relative;background-image:url('https://qodicat-1321366457.cos.ap-beijing.myqcloud.com/Blog/alankennedy._villagecovered_by_snow_in_the_mountainsin_the_even_4ed55748-307c-4f6c-aa57-a83bde461738.png')">
+  background-position: center center;position: relative;background-image:url('https://picx.zhimg.com/80/v2-b44931ea513e5f7b3b06f2703f79653c_1440w.webp')">
   <div class="post-detail-header-mask"></div>
   <canvas id="header_canvas"style="position:absolute;bottom:0;pointer-events:none;"></canvas>
   
   <div class="post-detail-header_info-box">
     <div class="title-box">
       <span class="title">
-        分类器整体
+        嵌入式系统（二）单片机基础
       </span>
     </div>
     
     
       
         <span class="post-detail-header_date">
-          <i class="fas fa-calendar"></i> Published in：2020-09-14 |
+          <i class="fas fa-calendar"></i> Published in：2023-12-02 |
         </span>
       
 
@@ -464,8 +464,8 @@
         <span class="post-detail-header_categories">
           <i class="iconfont iconbookmark1"></i> category：
           
-            <a href="/categories/%E7%BB%8F%E5%85%B8%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" class="post-detail-header_category">
-              经典深度神经网络
+            <a href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%B3%BB%E7%BB%9F/" class="post-detail-header_category">
+              嵌入式系统
             </a>
           
         </span>
@@ -489,73 +489,126 @@
   <div class="main-content">
     <article class="post post-detail">
       <div class="post-content">
-        <h2 id="1-图像表示"><a href="#1-图像表示" class="headerlink" title="1 图像表示"></a>1 图像表示</h2><ul>
-<li>基础像素表示</li>
-<li>全局特征表示 如GIST    比较适合风景类，室内场景，城市建筑。要依赖所有像素，对于如遮挡一类问题就不太适合了</li>
-<li>局部特征表示 如GIST</li>
-</ul>
-<p>2012年前，就要找到一个很好的特征，但对于神经网路而言是无所谓的</p>
-<h2 id="2-分类模型"><a href="#2-分类模型" class="headerlink" title="2 分类模型"></a>2 分类模型</h2><p>我们学习神经网络在学些什么？</p>
-<p>其实就是在学</p>
-<ol>
-<li>这每一类分类器的优势，适用于哪些场合</li>
-<li>这每一类分类器的原理，从而我们对于分类器做出合理的调整来解决具体问题</li>
-</ol>
-<p>常见分类器</p>
-<ul>
-<li>近邻分类器</li>
-<li>贝叶斯分类器</li>
-<li>线性分类器</li>
-<li>支撑向量机分类器</li>
-<li>神经网络分类器</li>
-<li>随机森林</li>
-<li>Adaboost<br>sd</li>
-</ul>
-<h2 id="3-损失函数"><a href="#3-损失函数" class="headerlink" title="3 损失函数"></a>3 损失函数</h2><p>常见的损失函数</p>
-<ul>
-<li>0-1 损失</li>
-<li>多类支撑向量机损失</li>
-<li>交叉熵损失</li>
-<li>L1损失</li>
-<li>L2损失</li>
-</ul>
-<h2 id="4-优化方法"><a href="#4-优化方法" class="headerlink" title="4 优化方法"></a>4 优化方法</h2><p>一阶方法</p>
-<ul>
-<li>梯度下降</li>
-<li>随机梯度下降</li>
-<li>小批量随机梯度下降</li>
-</ul>
-<p>二阶方法</p>
-<ul>
-<li>牛顿法</li>
-<li>BFGS</li>
-<li>L-BFGS</li>
-</ul>
-<p>训练过程本身</p>
-<ul>
-<li>数据集划分</li>
-<li>数据预处理</li>
-<li>数据增强</li>
-<li>欠拟合与过拟合</li>
-<li>超参数调整</li>
-<li>模型集成<img src="/img%5C1.jpg" class="lazyload placeholder" data-srcset="/img%5C1.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="1"></li>
-<li></li>
-</ul>
+        <p>上一篇文章我们介绍了嵌入式系统</p>
+<p>嵌入式系统（Embedded System）是一种特定用途的计算机系统，它通常嵌入在更大的产品或系统中，用于控制、监测或执行特定的任务。这些系统通常由硬件和软件组成，旨在满足特定的需求，如嵌入在家电、汽车、医疗设备、工业自动化、消费电子产品、通信设备等各种应用领域。</p>
+<p>简单说嵌入式：<strong>就是嵌入到对象体中的专用计算机系统</strong>  三要素 嵌入 专用 计算机</p>
+<p>嵌入式系统往往是一个较为复杂的系统，由单片机和硬件平台和嵌入式计算机系统等组成，其中的核心是<strong>嵌入式处理器</strong></p>
+<p>我们主要讲解单片机</p>
+<h1 id="1-单片机基本介绍"><a href="#1-单片机基本介绍" class="headerlink" title="1 单片机基本介绍"></a>1 单片机基本介绍</h1><h2 id="1-1-单片机组成"><a href="#1-1-单片机组成" class="headerlink" title="1.1 单片机组成"></a>1.1 单片机组成</h2><p>单片机系统是经典的嵌入式系统</p>
+<p>单片微型计算机简称单片机，他不是完成某一个逻辑功能的芯片，而是把一个计算机系统集成到一块芯片上，往往集合了如下一些部分</p>
+<p>​	（1）CPU中央处理器</p>
+<p>​	（2）RAM 随机存取存储器</p>
+<p>​	（3）ROM 只读存储器</p>
+<p>​	（4）定时&#x2F;计数器&#x2F; IO接口</p>
+<p>采用<strong>哈佛结构 Harvard结构</strong></p>
+<p>将程序 指令储存和数据储存分开的存储器 结构。拥有独立的指令总线和数据 总线，可以让取指与数据访问分开 进行，提高了执行效率。</p>
+<p>而不是传统我们熟悉的冯诺依曼结构</p>
+<h2 id="1-2-单片机特点"><a href="#1-2-单片机特点" class="headerlink" title="1.2 单片机特点"></a>1.2 单片机特点</h2><p>1）高集成度，体积小，高可靠性</p>
+<p> 2）控制功能强  </p>
+<p>3）低电压，低功耗，便于生产便携式产品  </p>
+<p>4）易扩展  </p>
+<p>5）优异的性能价格比</p>
+<h2 id="1-3-单片机分类"><a href="#1-3-单片机分类" class="headerlink" title="1.3 单片机分类"></a>1.3 单片机分类</h2><p><strong>1 按数据处理位数来分</strong></p>
+<p>由于4位单片机性能比较低，目前已逐步退出市场。</p>
+<p>而16位 和32位单片机虽然性能比8位的强得多，但由于成本和应用 场合的限制，尤其是近年来ARM嵌入式技术的发展，导致它 的应用空间也不如8位单片机广泛。而16位和32位单片机主 要应用于视频采集、图形处理等方面。</p>
+<p><strong>2 按内核分类</strong></p>
+<p>单片机按内核分为</p>
+<p>51系列  爱特梅尔公司</p>
+<p>ARM系列  安谋国际科技股份有限公司</p>
+<p>PIC系列  美国微芯科技公司</p>
+<p>AVR系列  爱特 梅尔公司</p>
+<p> MSP430系列   德州 仪器公司</p>
+<p><strong>3 按指令类型分类 单片机按指令类型可以分为</strong></p>
+<p>精简指令集和复杂指令集。</p>
+<h2 id="1-4-单片机内部结构"><a href="#1-4-单片机内部结构" class="headerlink" title="1.4 单片机内部结构"></a>1.4 单片机内部结构</h2><p>1）<strong>中央处理器</strong> </p>
+<p>运算器和控制器是核心，合称中央处理器或中央处理单元。</p>
+<p> 运算器执行所有的算术和逻辑运算；</p>
+<p>控制器负责把指令逐 条从存储器中取出，经译码后向计算机发出各种控制命令；</p>
+<p> 而寄存器为处理单元提供操作所需要的数据。</p>
+<p> 2）<strong>存储器</strong> </p>
+<p>存储器主要包括只读存储器和随机存储器。</p>
+<p> 3）<strong>输入设备和输出设备</strong> </p>
+<p>输入设备和输出设备主要包括<strong>并行I&#x2F;O端口</strong>和<strong>串行接口</strong>等通 信方式。 </p>
+<p><strong>并行I&#x2F;O端口</strong>即输入&#x2F;输出引脚，这是单片机与外部电路和 器件主要联系的端口，它既可以接收外界输入的电平信号， 也可以向外发送指定的电平信号</p>
+<p><strong>串行通信</strong>是一条信息的各位数据逐位按顺序传送的通信方 式。其数据传送按位顺序进行，最少只需要一根传输线即可。串行通信主要采用通用异步收发传输器（UART）实现。 其中，RxD表示接收数据端口，TxD表示发送数据端口</p>
+<p>4）<strong>时钟电路</strong></p>
+<p>主要为单片机提供运行所需要的节拍信号，每到 来一个节拍，单片机就执行一步操作，所以时钟电路提供 的信号频率越高，单片机的运行速度就越快，相应的功耗 也越大。</p>
+<p>5）<strong>中断控制系统</strong> </p>
+<p>中断的种类大体来说，主要包括<strong>硬体中断、软体中断</strong>两类。 </p>
+<p><strong>硬体中断</strong>的形成，通常是外界的硬体装置利用由CPU拉出的 中断要求信号线来通知 CPU中断的请求。</p>
+<p><strong>软体中断</strong>，通 常是CPU自己引发的，比如说执行了不该执行的指令、计算 错误或者执行了某个用来产生软体中断的指令。</p>
+<p>6）<strong>定时器&#x2F;计数器</strong></p>
+<p> 单片机将CPU、存储器、输入&#x2F;输出设备、中断控制系统、 定时器&#x2F;计数器和通信等多种功能部件集成到一块硅片上， 从而构成一个体积小但功能完善的微型计算机系统。</p>
+<p>解下来我们重点介绍一款应用较多的单片机</p>
+<h1 id="2-8051单片机内部结构"><a href="#2-8051单片机内部结构" class="headerlink" title="2. 8051单片机内部结构"></a>2. 8051单片机内部结构</h1><h2 id="2-1-CPU-核心"><a href="#2-1-CPU-核心" class="headerlink" title="2.1 CPU 核心"></a>2.1 CPU 核心</h2><p>以ALU为中心的运算器</p>
+<p>还有以各种寄存器和译码器为核心的控制器</p>
+<p><img src="/!%5Bimage-20230918141136476%5D(https:/qodicat-1321366457.cos.ap-beijing.myqcloud.com/OS/image-20230918141136476.png)" class="lazyload placeholder" data-srcset="/!%5Bimage-20230918141136476%5D(https:/qodicat-1321366457.cos.ap-beijing.myqcloud.com/OS/image-20230918141136476.png)" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="运算器和控制器"></p>
+<p>除了CPU以外，有名的是单片机的三大资源</p>
+<p>FLASH（程序存储空间ROM）</p>
+<p>RAM  （数据存储空间）</p>
+<p>SFR 特殊功能寄存器</p>
+<h2 id="2-2-ROM-Flash-程序存储空间"><a href="#2-2-ROM-Flash-程序存储空间" class="headerlink" title="2.2 ROM   Flash  程序存储空间"></a>2.2 ROM   Flash  程序存储空间</h2><p>FLASH 存储器是一种非易失性存储器，用于存储嵌入式系统的程序代码。它通常用于存储固件、操作系统、应用程序和其他必要的程序代码。与传统的RAM不同，FLASH 存储器的数据在断电后仍然保持，因此适用于存储长期保持的程序代码。</p>
+<p>对于单片机来说Flash最大的意义是断电后 数据不丢失，</p>
+<h2 id="2-3-RAM-数据存储空间"><a href="#2-3-RAM-数据存储空间" class="headerlink" title="2.3  RAM 数据存储空间"></a>2.3  RAM 数据存储空间</h2><p>RAM是单片机的数据存储空间，用来存储程序运 行过程中产生的和需要的数据</p>
+<p>跟电脑的内存是 相似的概念，关电后数据丢失，所以我 们每次打开计算器，都是从归零开始计算。</p>
+<p> 它的优点，第一是读写速度非常快，第二是理论 上是可无限次写入的，即寿命无限，不管程序怎 么运行怎么读写它都不会坏。</p>
+<h2 id="2-4-SFR-特殊功能寄存器"><a href="#2-4-SFR-特殊功能寄存器" class="headerlink" title="2.4 SFR 特殊功能寄存器"></a>2.4 SFR 特殊功能寄存器</h2><p>特殊功能寄存器是嵌入式系统中的一类寄存器，用于控制和配置系统的特殊功能和硬件模块。这些寄存器通常包括控制寄存器、时钟寄存器、中断寄存器、输入&#x2F;输出端口控制寄存器等。通过编写和读取这些寄存器的值，开发者可以配置和控制系统的各种功能。</p>
+<p>SFR，特殊功能寄存器。这 个概念大家可能刚开始理解不了，但是一 定要记住。单片机有很多很多功能，每个 功能都会对应一个或多个SFR，我们就是 通过对SFR的读写来实现单片机的多种多 样的功能的。</p>
+<h1 id="3-CC2530芯片介绍"><a href="#3-CC2530芯片介绍" class="headerlink" title="3 CC2530芯片介绍"></a>3 CC2530芯片介绍</h1><h2 id="3-1-组成"><a href="#3-1-组成" class="headerlink" title="3.1 组成"></a>3.1 组成</h2><p><strong>（1）CPU和内存</strong> </p>
+<p>CC2530芯片中使用的8051CPU内核是一个单周期的8051兼容内核。</p>
+<p>它有3种不同的内存访问总线，分别用于访问特殊功 能寄存器、数据和代码&#x2F;外部数据</p>
+<p>此外，它还包括一个调试接口和一个18路输入扩展中断单元。</p>
+<p><strong>（2）时钟和电源管理</strong> </p>
+<p>数字内核和外设由一个1.8V低压差稳压器供电。它提供了 电源管理功能，可以实现使用不同供电模式的长电池寿命 的低功耗运行。CC2530有5种不同的复位源来复位设备</p>
+<p><strong>（3）外设</strong> </p>
+<p>调试接口执行一个专有的两线串行接口，用于内电路调试。 通过这个调试接口，可以执行整个闪存存储器的擦除、控 制振荡器、停止和开始执行用户程序、执行8051内核提供 的指令、设置代码断点，以及内核中全部指令的单步调试。 使用这些技术，可以很好地执行内电路的调试和外部闪存 的编程。</p>
+<p> 定时器1是一个16位定时器，具有定时器&#x2F;PWM功能。的消费 型IR信号。 </p>
+<p>定时器2是专门为支持IEEE 802.15.4 MAC或软件中其他时 槽的协议设计的。该定时器有一个可配置的定时器周期和 一个8位溢出计数器</p>
+<p>定时器3和定时器4是8位定时器，具有定时器&#x2F;计数器&#x2F;PWM功能。 </p>
+<p>睡眠定时器在除供电模式3之外的所有工作模式下不断运行。该定时器 的典型应用是作为实时计数器，或作为一个唤醒定时器跳出供电模式1 或2</p>
+<p>ADC支持7～12位的分辨率，分别在30kHz或4kHz的带宽。DC和音频转换 可以使用高达8个输入通道（端口0），输入可以选择作为单端或差分。 参考电压可以是内部电压、AVDD或一个单端或差分外部信号。ADC还有 一个温度传感输入通道。ADC可以自动执行定期抽样或转换通道序列的 程序</p>
+<p>串口1（USART 0）和串口2（USART 1）被配置为一个SPI主&#x2F;从或一个 UART。它们为RX和TX提供双缓冲，以及硬件流控制。</p>
+<h1 id="4-单片机最小系统"><a href="#4-单片机最小系统" class="headerlink" title="4 单片机最小系统"></a>4 单片机最小系统</h1><p>单片机最小系统 ，也叫做单片机 最小应用系统， 是指用最少的原 件组成单片机可 以工作的系统。 单片机最小系统 的三要素就是电源、晶振、复位</p>
+<h2 id="4-1-电源"><a href="#4-1-电源" class="headerlink" title="4.1  电源"></a>4.1  电源</h2><p>常用单片机的电源系统有5V系统 和3.3V系统这两种。</p>
+<h2 id="4-2-晶振"><a href="#4-2-晶振" class="headerlink" title="4.2 晶振"></a>4.2 晶振</h2><h3 id="4-2-1-定义种类"><a href="#4-2-1-定义种类" class="headerlink" title="4.2.1 定义种类"></a>4.2.1 定义种类</h3><p>晶振，又叫晶体振荡器，他起到的作用是 为单片机系统提供基准时钟信号。 </p>
+<p> 单片机内部所有的工作都是以这个时钟信号为步调基准来进行工作的。</p>
+<p> STC89C52单片机的18脚和19脚是晶振引 脚，我们接了一个11.0592M的晶振（它每 秒钟振荡11,059,200次），外加两个20pF 的电容，电容的作用是帮助晶振起振，并 维持振荡信号的稳定</p>
+<p>电容分为不同种</p>
+<p>晶振分为有源晶振和无源晶振</p>
+<p>两种时钟产生方式</p>
+<p>​	内部振荡器方式</p>
+<p>​	外部时钟源方式</p>
+<h3 id="4-2-2-基本时序周期"><a href="#4-2-2-基本时序周期" class="headerlink" title="4.2.2 基本时序周期"></a>4.2.2 基本时序周期</h3><p>CPU总是按照一定的时钟节拍与时序工作，时序 定时单位共有４个，从小到大依次是：</p>
+<p>振荡周期&#x2F;时钟周期：Tc&#x3D;晶振频率fosc（或外加频率）的倒数 MCS-51单片机中最小的时序单位 </p>
+<p>状态周期：Ts&#x3D;2个时钟周期(Tc)（很少用到此概念） </p>
+<p>机器周期：CPU完成一个基本操作所需的时间称为机器周期</p>
+<p> 指令周期: 执行一条指令所需的机器周期(Tm)数，是MCS-51 单片机最大的时序单位。通常含有1～4个机器周期。</p>
+<p>相互转换关系</p>
+<p>振荡周期 &#x3D; 晶振频率fosc的倒数；</p>
+<p> 1个状态周期&#x3D; 2个振荡周期；</p>
+<p> 1个机器周期 &#x3D; 12个振荡周期&#x3D;6个状态周期； </p>
+<p>1个指令周期 &#x3D; 1、2、4个机器周</p>
+<p>CC2530指令周期与标准51不同</p>
+<p>标准51：1个机器周期为12个振荡周期 • CC2530包含一个单周期的增强51内核，不 同于标准51</p>
+<p>CC2530</p>
+<p>四个时钟源  两个内部振荡器，两个外部晶振</p>
+<p>： 不做任何配置时，系统时钟 为16Mhz • 机器周期是多少？ 1&#x2F;16 us</p>
+<h2 id="4-3-复位"><a href="#4-3-复位" class="headerlink" title="4.3 复位"></a>4.3 复位</h2><p>复位电路需要接到接到了单片机的RST(Reset)复位引脚 上。</p>
+<p> 单片机复位一般是3种情况：</p>
+<p>上电复位、手动复位、程序 自动复位。</p>
+<p>（1）上电复位：单片机上电后进行的一个内部的初始化过程。保证单 片机每次都从一个固定的相同的状态开始工作。</p>
+<p>（2）手动复位： 遭受到意外干扰而导致程序死机，或 者程序跑飞的时候，我们就可以按下一个复位按键，让程序重新 初始化重新运行。</p>
+<p>（3）自动复位  当程序死机或者跑飞的时候，单片机往往有一套自动复位机制， 比如看门狗。如果程序长时间失去响应，单片机看门狗模块会自 动复位重启单片机</p>
+<p>电源、晶振、复位构成了单片机最小系统 的三要素，也就是说，一个单片机具备了 这三个条件，就可以运行我们下载的程序 了</p>
+<p>而其他的比如LED小灯、数码管、液晶等设 备都是属于单片机的外部设备，即外设。</p>
+<p> 外设</p>
+<p>通常红色贴片LED:靠电流驱动，电压 1.8V~2.2V，电流1到20mA，在1到 5mA亮度有所变化，5mA以上亮度基本 无变化</p>
+<h1 id="5-编程"><a href="#5-编程" class="headerlink" title="5 编程"></a>5 编程</h1><p>嵌入编程中要注意数据类型，</p>
+<p>char 8位  一般给寄存器赋值，因为寄存器一般是八位</p>
+<p>需要考虑编程的取值范围</p>
 
       </div>
       <div class="post-tags-categories">
-        
-        <div class="tags">
-          
-            <a href="/tags/%E7%AE%97%E6%B3%95/" class="">
-              算法
-            </a>
-          
-            <a href="/tags/AI/" class="">
-              AI
-            </a>
-          
-        </div>
         
       </div>
       
@@ -566,7 +619,7 @@
     </li>
     <li class="post-copyright-link">
     <strong>link:  </strong>
-    <a href="/2020/09/14/AI算法/经典神经网络/0 分类器整体/" target="_blank" title="分类器整体">http://qodicat/2020/09/14/AI算法/经典神经网络/0 分类器整体/</a>
+    <a href="/2023/12/02/Computer_system/embedded_system/1 单片机基础/" target="_blank" title="嵌入式系统（二）单片机基础">http://qodicat/2023/12/02/Computer_system/embedded_system/1 单片机基础/</a>
     </li>
     <li class="post-copyright-license">
       <strong>Copyright notice:   </strong>
@@ -588,21 +641,39 @@
   <div class="post-nav-prev post-nav-item">
     <div class="post-nav-img" style="background-size: cover; 
       background-position: center center;">
-      <img class="lazyload lazyload placeholder" src="https://qodicat-1321366457.cos.ap-beijing.myqcloud.com/Blog/alankennedy._flying_boys_blue_sky_white_clouds_small_horseMiyaz_406f046a-31b0-47bc-8842-b7cff28201d6.png" class="lazyload placeholder" data-srcset="https://qodicat-1321366457.cos.ap-beijing.myqcloud.com/Blog/alankennedy._flying_boys_blue_sky_white_clouds_small_horseMiyaz_406f046a-31b0-47bc-8842-b7cff28201d6.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+      <img class="lazyload lazyload placeholder" src="https://pic3.zhimg.com/v2-a5267dfbf175991d4b3a69b41f3f678a_b.jpg" class="lazyload placeholder" data-srcset="https://pic3.zhimg.com/v2-a5267dfbf175991d4b3a69b41f3f678a_b.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
     </div>
-    <a href="/2020/09/14/tags/index/" class="post-nav-link">
+    <a href="/2023/12/02/Computer_system/Database_system/2%20%E6%95%B0%E6%8D%AE%E5%BA%93%E5%85%B3%E7%B3%BB%E4%BB%A3%E6%95%B0/" class="post-nav-link">
       <div class="title">
         <i class="fas fa-angle-left"></i> Prev:
-        <div class="title-text">tags</div>
+        <div class="title-text">数据库系统（二）关系代数</div>
       </div>
       
       <!-- <div class="content">
-        
+        1 单张表运算1.1 选择 select选择就是从一个表中选择满足条件的一些元组
+“Predicate” 可以翻译为 “
       </div> -->
     </a>
   </div>
 
 
+
+  
+  <div class="post-nav-next post-nav-item">
+    <div class="post-nav-img" style="background-size: cover; 
+      background-position: center center;">
+      <img class="lazyload lazyload placeholder" src="https://s2.loli.net/2024/01/09/Hcm6aXduOKfvr13.png" class="lazyload placeholder" data-srcset="https://s2.loli.net/2024/01/09/Hcm6aXduOKfvr13.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" src="" alt="">
+    </div>
+    <a href="/2023/12/02/about/index/" class="post-nav-link">
+      <div class="title">
+        Next: <i class="fas fa-angle-right"></i>
+        <div class="title-text">关于我</div>
+      </div>
+      <!-- <div class="content">
+        个人介绍博主: QodicatAI算法应用爱好者与世界大战三百回合不服输的少年~喜欢探索美食，以及一切有趣充满活力的事物
+      </div> -->
+    </a>
+  </div>
 
 </div>
 
@@ -905,7 +976,7 @@
   <div class='content'>
     <div class="toc-main">
       <div class="toc-content">
-        <!-- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%9B%BE%E5%83%8F%E8%A1%A8%E7%A4%BA"><span class="toc-text">1 图像表示</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%88%86%E7%B1%BB%E6%A8%A1%E5%9E%8B"><span class="toc-text">2 分类模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0"><span class="toc-text">3 损失函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95"><span class="toc-text">4 优化方法</span></a></li></ol> -->
+        <!-- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-%E5%8D%95%E7%89%87%E6%9C%BA%E5%9F%BA%E6%9C%AC%E4%BB%8B%E7%BB%8D"><span class="toc-text">1 单片机基本介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-%E5%8D%95%E7%89%87%E6%9C%BA%E7%BB%84%E6%88%90"><span class="toc-text">1.1 单片机组成</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-%E5%8D%95%E7%89%87%E6%9C%BA%E7%89%B9%E7%82%B9"><span class="toc-text">1.2 单片机特点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-3-%E5%8D%95%E7%89%87%E6%9C%BA%E5%88%86%E7%B1%BB"><span class="toc-text">1.3 单片机分类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-4-%E5%8D%95%E7%89%87%E6%9C%BA%E5%86%85%E9%83%A8%E7%BB%93%E6%9E%84"><span class="toc-text">1.4 单片机内部结构</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-8051%E5%8D%95%E7%89%87%E6%9C%BA%E5%86%85%E9%83%A8%E7%BB%93%E6%9E%84"><span class="toc-text">2. 8051单片机内部结构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-CPU-%E6%A0%B8%E5%BF%83"><span class="toc-text">2.1 CPU 核心</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-ROM-Flash-%E7%A8%8B%E5%BA%8F%E5%AD%98%E5%82%A8%E7%A9%BA%E9%97%B4"><span class="toc-text">2.2 ROM   Flash  程序存储空间</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3-RAM-%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E7%A9%BA%E9%97%B4"><span class="toc-text">2.3  RAM 数据存储空间</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-4-SFR-%E7%89%B9%E6%AE%8A%E5%8A%9F%E8%83%BD%E5%AF%84%E5%AD%98%E5%99%A8"><span class="toc-text">2.4 SFR 特殊功能寄存器</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-CC2530%E8%8A%AF%E7%89%87%E4%BB%8B%E7%BB%8D"><span class="toc-text">3 CC2530芯片介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-%E7%BB%84%E6%88%90"><span class="toc-text">3.1 组成</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-%E5%8D%95%E7%89%87%E6%9C%BA%E6%9C%80%E5%B0%8F%E7%B3%BB%E7%BB%9F"><span class="toc-text">4 单片机最小系统</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-%E7%94%B5%E6%BA%90"><span class="toc-text">4.1  电源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-%E6%99%B6%E6%8C%AF"><span class="toc-text">4.2 晶振</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-1-%E5%AE%9A%E4%B9%89%E7%A7%8D%E7%B1%BB"><span class="toc-text">4.2.1 定义种类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-2-%E5%9F%BA%E6%9C%AC%E6%97%B6%E5%BA%8F%E5%91%A8%E6%9C%9F"><span class="toc-text">4.2.2 基本时序周期</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3-%E5%A4%8D%E4%BD%8D"><span class="toc-text">4.3 复位</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-%E7%BC%96%E7%A8%8B"><span class="toc-text">5 编程</span></a></li></ol> -->
         <div class="toc"></div>
       </div>
     </div>
@@ -938,7 +1009,91 @@
             
 
             <div class="post-img-box">
-              <a href="/2023/12/06/Computer_system/Database_system/5%20%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A7%84%E8%8C%83/" class="post-img " style="background-size: cover; 
+              <a href="/2023/12/22/AI%E7%AE%97%E6%B3%95/%E7%BB%8F%E5%85%B8%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/8%20%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9CRNN/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://pic3.zhimg.com/80/v2-7cfc909ebe8d83683909846edd6b5232_1440w.webp" class="lazyload placeholder" data-srcset="https://pic3.zhimg.com/80/v2-7cfc909ebe8d83683909846edd6b5232_1440w.webp" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">12-22</span>
+                
+              </div>
+              <a class="post-title" href="/2023/12/22/AI%E7%AE%97%E6%B3%95/%E7%BB%8F%E5%85%B8%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/8%20%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9CRNN/">经典网络（十）循环神经网络RNN</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2023/12/21/AI%E7%AE%97%E6%B3%95/%E7%BB%8F%E5%85%B8%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/4.3%20ResNet/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://pica.zhimg.com/80/v2-573ac3e25de03fad9c32add5a05e5cfc_1440w.webp" class="lazyload placeholder" data-srcset="https://pica.zhimg.com/80/v2-573ac3e25de03fad9c32add5a05e5cfc_1440w.webp" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">12-21</span>
+                
+              </div>
+              <a class="post-title" href="/2023/12/21/AI%E7%AE%97%E6%B3%95/%E7%BB%8F%E5%85%B8%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/4.3%20ResNet/">经典网络（七）ResNet全解析</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2023/12/20/AI%E7%AE%97%E6%B3%95/%E7%BB%8F%E5%85%B8%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/5.1%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://pic3.zhimg.com/80/v2-5f7cb7e900b9dcf5354c3d4d2c5cc3c2_1440w.webp" class="lazyload placeholder" data-srcset="https://pic3.zhimg.com/80/v2-5f7cb7e900b9dcf5354c3d4d2c5cc3c2_1440w.webp" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">12-20</span>
+                
+              </div>
+              <a class="post-title" href="/2023/12/20/AI%E7%AE%97%E6%B3%95/%E7%BB%8F%E5%85%B8%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/5.1%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/">经典CV任务（二）目标检测</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2023/12/20/AI%E7%AE%97%E6%B3%95/%E7%BB%8F%E5%85%B8%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/4.2%20GoogleNet%E8%A7%A3%E6%9E%90/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://pica.zhimg.com/80/v2-61f99f8dcf899f54cad2a1aa28b21e44_1440w.webp" class="lazyload placeholder" data-srcset="https://pica.zhimg.com/80/v2-61f99f8dcf899f54cad2a1aa28b21e44_1440w.webp" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">12-20</span>
+                
+              </div>
+              <a class="post-title" href="/2023/12/20/AI%E7%AE%97%E6%B3%95/%E7%BB%8F%E5%85%B8%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/4.2%20GoogleNet%E8%A7%A3%E6%9E%90/">经典网络（六）GoogleNet全解析</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2023/12/19/AI%E7%AE%97%E6%B3%95/%E7%BB%8F%E5%85%B8%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/7.1%20%E7%94%9F%E6%88%90%E7%BD%91%E7%BB%9CGAN/" class="post-img " style="background-size: cover; 
                 background-position: center center;">
                 <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://pic4.zhimg.com/80/v2-83ea273b88e119d9615aed0d89aad4ab_1440w.webp" class="lazyload placeholder" data-srcset="https://pic4.zhimg.com/80/v2-83ea273b88e119d9615aed0d89aad4ab_1440w.webp" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
               </a>
@@ -946,94 +1101,10 @@
             <div class="post-date-title">
               <div>
                 
-                  <span class="post-date">12-06</span>
+                  <span class="post-date">12-19</span>
                 
               </div>
-              <a class="post-title" href="/2023/12/06/Computer_system/Database_system/5%20%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A7%84%E8%8C%83/">数据库系统（六）数据库规范</a>
-            </div>
-          </div>
-        
-          <div class="aside-list-item">
-            
-            
-            
-
-            <div class="post-img-box">
-              <a href="/2023/12/05/Computer_system/Database_system/4%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E8%AE%BE%E8%AE%A1/" class="post-img " style="background-size: cover; 
-                background-position: center center;">
-                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://pic2.zhimg.com/80/v2-63bbdb5b76b8d349ad35ff4281efbd37_1440w.webp" class="lazyload placeholder" data-srcset="https://pic2.zhimg.com/80/v2-63bbdb5b76b8d349ad35ff4281efbd37_1440w.webp" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
-              </a>
-            </div>
-            <div class="post-date-title">
-              <div>
-                
-                  <span class="post-date">12-05</span>
-                
-              </div>
-              <a class="post-title" href="/2023/12/05/Computer_system/Database_system/4%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E8%AE%BE%E8%AE%A1/">数据库系统（五）数据库设计</a>
-            </div>
-          </div>
-        
-          <div class="aside-list-item">
-            
-            
-            
-
-            <div class="post-img-box">
-              <a href="/2023/12/04/Computer_system/Database_system/3-2%E4%B8%AD%E7%BA%A7%E5%92%8C%E8%BF%9B%E9%98%B6SQL/" class="post-img " style="background-size: cover; 
-                background-position: center center;">
-                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://qodicat-1321366457.cos.ap-beijing.myqcloud.com/Blog/alankennedy._flying_boys_blue_sky_white_clouds_small_horseMiyaz_406f046a-31b0-47bc-8842-b7cff28201d6.png" class="lazyload placeholder" data-srcset="https://qodicat-1321366457.cos.ap-beijing.myqcloud.com/Blog/alankennedy._flying_boys_blue_sky_white_clouds_small_horseMiyaz_406f046a-31b0-47bc-8842-b7cff28201d6.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
-              </a>
-            </div>
-            <div class="post-date-title">
-              <div>
-                
-                  <span class="post-date">12-04</span>
-                
-              </div>
-              <a class="post-title" href="/2023/12/04/Computer_system/Database_system/3-2%E4%B8%AD%E7%BA%A7%E5%92%8C%E8%BF%9B%E9%98%B6SQL/">数据库系统（四）中级和进阶SQL</a>
-            </div>
-          </div>
-        
-          <div class="aside-list-item">
-            
-            
-            
-
-            <div class="post-img-box">
-              <a href="/2023/12/03/Computer_system/Database_system/3-1SQL%E8%AF%AD%E5%8F%A5/" class="post-img " style="background-size: cover; 
-                background-position: center center;">
-                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://pic2.zhimg.com/80/v2-29e78b52051ce542adf6d786d61fbd19_1440w.webp" class="lazyload placeholder" data-srcset="https://pic2.zhimg.com/80/v2-29e78b52051ce542adf6d786d61fbd19_1440w.webp" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
-              </a>
-            </div>
-            <div class="post-date-title">
-              <div>
-                
-                  <span class="post-date">12-03</span>
-                
-              </div>
-              <a class="post-title" href="/2023/12/03/Computer_system/Database_system/3-1SQL%E8%AF%AD%E5%8F%A5/">数据库系统（三）SQL语句全解析</a>
-            </div>
-          </div>
-        
-          <div class="aside-list-item">
-            
-            
-            
-
-            <div class="post-img-box">
-              <a href="/2023/12/02/Computer_system/Database_system/2%20%E6%95%B0%E6%8D%AE%E5%BA%93%E5%85%B3%E7%B3%BB%E4%BB%A3%E6%95%B0/" class="post-img " style="background-size: cover; 
-                background-position: center center;">
-                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="https://pic3.zhimg.com/v2-a5267dfbf175991d4b3a69b41f3f678a_b.jpg" class="lazyload placeholder" data-srcset="https://pic3.zhimg.com/v2-a5267dfbf175991d4b3a69b41f3f678a_b.jpg" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="">
-              </a>
-            </div>
-            <div class="post-date-title">
-              <div>
-                
-                  <span class="post-date">12-02</span>
-                
-              </div>
-              <a class="post-title" href="/2023/12/02/Computer_system/Database_system/2%20%E6%95%B0%E6%8D%AE%E5%BA%93%E5%85%B3%E7%B3%BB%E4%BB%A3%E6%95%B0/">数据库系统（二）关系代数</a>
+              <a class="post-title" href="/2023/12/19/AI%E7%AE%97%E6%B3%95/%E7%BB%8F%E5%85%B8%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/7.1%20%E7%94%9F%E6%88%90%E7%BD%91%E7%BB%9CGAN/">经典网络（九）生成网络GAN</a>
             </div>
           </div>
         
@@ -1168,6 +1239,59 @@
 		height: 100%;
 	}
 </style>
+
+
+  <script>
+  // https://github.com/theme-next/hexo-theme-next/blob/master/layout/_third-party/math/mathjax.swig
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = 'https://unpkg.com/mathjax@3.0/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    // 文章章节标题不能为 “MathJax” ，否则会报错。
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
 
 
 
